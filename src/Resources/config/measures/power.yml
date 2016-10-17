@@ -1,0 +1,9 @@
+measures_config:
+    Power:
+        units:
+            MILLIWATT:
+                convert: [{'mul': 0.001}]
+                symbol: mW
+            VOLT_AMPERE:
+                convert: [{'mul': 1}]
+                symbol: V·A

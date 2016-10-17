@@ -1,0 +1,6 @@
+measures_config:
+    Resolution:
+        standard:
+        units:
+            DPI:
+                convert: [{'mul': }]

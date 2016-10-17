@@ -1,0 +1,37 @@
+measures_config:
+    DataTransferRate:
+        standard: BIT_PER_SECOND
+        units:
+            BIT_PER_SECOND:
+                convert: [{'mul': 1}]
+                symbol: bit/s
+            KILOBIT_PER_SECOND:
+                convert: [{'mul': 1000}]
+                symbol: kbit/s
+            MEGABIT_PER_SECOND:
+                convert: [{'mul': 1000000}]
+                symbol: Mbit/s
+            MEGABIT_PER_HOUR:
+                convert: [{'mul': 1000000}, {'mul': 3600}]
+                symbol: Mbit/h
+            GIGABIT_PER_HOUR:
+                convert: [{'mul': 1000000000}, {'mul': 3600}]
+                symbol: Gbit/h
+            GIGABIT_PER_MINUTE:
+                convert: [{'mul': 1000000000}, {'mul': 60}]
+                symbol: Gbit/m
+            GIGABIT_PER_SECOND:
+                convert: [{'mul': 1000000000}]
+                symbol: Gbit/s
+            BYTE_PER_SECOND:
+                convert: [{'mul': 8}]
+                symbol: byte/s
+            KILOBYTE_PER_SECOND:
+                convert: [{'mul': 8000}]
+                symbol: kbyte/s
+            MEGABYTE_PER_SECOND:
+                convert: [{'mul': 8000000}]
+                symbol: Mbyte/s
+            GIGABYTE_PER_SECOND:
+                convert: [{'mul': 8000000000}]
+                symbol: GByte/s

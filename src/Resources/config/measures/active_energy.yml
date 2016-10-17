@@ -1,0 +1,10 @@
+measure_config:
+    ActiveEnergy:
+        standard: JOULE
+        units:
+            JOULE:
+                convert: [{'mul': 1}]
+                symbol: J
+            WATT_HOUR:
+                convert: [{'mul': 3600}]
+                symbol: W·h

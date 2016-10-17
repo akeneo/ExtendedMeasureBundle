@@ -1,0 +1,16 @@
+measures_config:
+    Duration:
+        #standard: SECOND
+        units:
+            NANOSECOND:
+                convert: [{'mul': 0.000000001}]
+                symbol: ns
+            MICROSECOND:
+                convert: [{'mul': 0.000001}]
+                symbol: µs
+            MONTH:
+                convert: [{'mul': 2629800}]
+                symbol: month
+            YEAR:
+                convert: [{'mul': 31557600}]
+                symbol: year
