@@ -6,5 +6,5 @@ measures_config:
                 convert: [{'mul': 1}]
                 symbol: rad/s
             REVOLUTION_PER_MINUTE:
-                convert: [{'mul': 0,1047198}]
+                convert: [{'mul': 0.1047198}]
                 symbol: r/min
