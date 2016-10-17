@@ -1,5 +1,24 @@
 measures_config:
     Length:
         units:
+            MICROMETER:
+                convert: [{'mul': 0.000001}]
+                symbol: 'µm'
             NANOMETER:
                 convert: [{'mul': 0.000000001}]
+                symbol: 'nm'
+            PICOMETER:
+                convert: [{'mul': 0.000000000001}]
+                symbol: 'pm'
+            FENTOMETER:
+                convert: [{'mul': 0.000000000000001}]
+                symbol: 'fm'
+            NAUTICAL_MILE:
+                convert: [{'mul': 1852}]
+                symbol: 'n mile'
+            ANGSTROM:
+                convert: [{'mul': 0.00000000001}]
+                symbol: 'Å'
+            ASTRONOMICAL_UNIT:
+                convert: [{'mul': 149597870000}]
+                symbol: 'ua'

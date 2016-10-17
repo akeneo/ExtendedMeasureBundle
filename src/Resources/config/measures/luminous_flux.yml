@@ -1,0 +1,7 @@
+measures_config:
+    Brightness:
+        standard: LUMEN
+        units:
+            LUMEN:
+                convert: [{'mul': 1}]
+                symbol: lm
