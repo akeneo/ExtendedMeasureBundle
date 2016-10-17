@@ -1,4 +1,4 @@
-measure_config:
+measures_config:
     ActiveEnergy:
         standard: JOULE
         units:
