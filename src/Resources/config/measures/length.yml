@@ -35,8 +35,10 @@ measures_config:
                 symbol: 'km'
                 name: 'kilometer'
             MIL:
+                unece_code: '77'
                 convert: [{'mul': 0.0000254}]
-                symbol: mil
+                symbol: 'mil'
+                name: 'milli-inch'
             INCH:
                 unece_code: 'INH'
                 convert: [{'mul': 0.0254}]
@@ -53,21 +55,29 @@ measures_config:
                 symbol: 'yd'
                 name: 'yard'
             CHAIN:
+                unece_code: 'M49'
                 convert: [{'mul': 20.1168}]
                 symbol: ch
+                name: "chain"
+                alternative_units: ["Gunter's chain"]
             FURLONG:
+                unece_code: 'M50'
                 convert: [{'mul': 201.168}]
-                symbol: fur
+                symbol: 'fur'
+                name: 'furlong'
             MILE:
+                unece_code: 'SMI'
                 convert: [{'mul': 1609.344}]
-                symbol: mi
+                symbol: 'mi'
+                name: 'Mile'
+                alternative_units: ['mile']
             # added
             MICROMETER:
                 unece_code: '4H'
                 convert: [{'mul': 0.000001}]
                 symbol: 'µm'
                 name: 'micrometer'
-                alternative_units: ['mucron']
+                alternative_units: ['micron']
             NANOMETER:
                 unece_code: 'C45'
                 convert: [{'mul': 0.000000001}]
@@ -113,14 +123,24 @@ measures_config:
                 convert: [{'mul': 1.8288 }]
                 symbol: 'fth'
                 name: 'fathom'
-            GUNTERS_CHAIN:
-                unece_code: 'X1'
-                convert: [{'mul': 20.1168}]
-                symbol: 'ch (UK)'
-                name: "Gunter's chain"
             MICROINCH:
                 unece_code: 'M7'
                 convert: [{'mul': 0.0000254}]
                 symbol: 'µin'
                 name: 'micro-inch'
+            LIGHT_YEAR:
+                unece_code: 'B57'
+                convert: [{'mul': 9460730000000000}]
+                symbol: 'ly'
+                name: 'light year'
+            ROD:
+                unece_code: 'F49'
+                convert: [{'mul': 5.029210}]
+                symbol: 'rd'
+                name: 'rod'
+            MEGAMETER:
+                unece_code: 'MAM'
+                convert: [{'mul': 1000000}]
+                symbol: 'Mm'
+                name: 'Megameter'
 
