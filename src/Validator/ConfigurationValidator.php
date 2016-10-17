@@ -2,22 +2,93 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\Validator;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\DuplicateUnitException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * Validate the measures configuration
+ *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
 class ConfigurationValidator
 {
-    public function loadDefinitions($configDirectory)
-    {
-        $measuresFinder = new Finder();
-        $measuresFinder->files()->in($configDirectory)->name(('*.yml'));
+    /**
+     * @var array
+     */
+    private $errors;
 
-        foreach ($measuresFinder as $measureFile) {
-            $definitions = Yaml::parse($measureFile->getContents());
-            dump($definitions);
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    public function validate($config)
+    {
+        foreach ($config['measures_config'] as $family => $familyConfig) {
+            $this->validateFamilyUnits($familyConfig['units'], $family);
         }
+
+        return $this->errors;
+    }
+
+    /**
+     * @param array  $unitsConfig
+     * @param string $familyName
+     */
+    public function validateFamilyUnits(array $unitsConfig, $familyName)
+    {
+        $options = new OptionsResolver();
+        $this->configureOptions($options);
+        $this->errors = [];
+        $familyUnits = [];
+        foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
+            try {
+                $unitConfig = $options->resolve($unitConfig);
+                $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['symbol'], $familyUnits);
+                if (isset($unitConfig['unece_code'])) {
+                    $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['unece_code'], $familyUnits);
+                }
+                if (isset($unitConfig['alternative_units'])) {
+                    foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
+                        $familyUnits = $this->checkFamilyUnitUnicity($alternativeUnit, $familyUnits);
+                    }
+                }
+            } catch (DuplicateUnitException $e) {
+                $this->errors[] = sprintf('%s : %s', $familyName, $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @param string   $unit
+     * @param string[] $existingUnits
+     *
+     * @return string[]
+     */
+    private function checkFamilyUnitUnicity($unit, $existingUnits)
+    {
+        if (in_array($unit, $existingUnits)) {
+            throw new DuplicateUnitException('Unit already exists: ' . $unit);
+        }
+        $existingUnits[] = $unit;
+
+        return $existingUnits;
+    }
+
+    /**
+     * @param OptionsResolver $options
+     */
+    private function configureOptions(OptionsResolver $options)
+    {
+        $options->setRequired('convert');
+        $options->setAllowedTypes('convert', 'array');
+        $options->setRequired('symbol');
+        $options->setAllowedTypes('symbol', 'string');
+        $options->setDefined('unece_code');
+        $options->setAllowedTypes('unece_code', 'string');
+        $options->setDefined('name');
+        $options->setAllowedTypes('name', 'string');
+        $options->setDefined('alternative_units');
+        $options->setAllowedTypes('alternative_units', 'array');
     }
 }
