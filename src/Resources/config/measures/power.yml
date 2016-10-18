@@ -58,26 +58,6 @@ measures_config:
                 convert: [{'mul': 746}]
                 symbol: 'electric hp'
                 name: 'horse power (electric)'
-            VOLT_AMPERE:
-                unece_code: 'D46'
-                convert: [{'mul': 1}]
-                symbol: 'V·A'
-                name: 'volt - ampere'
-            MEGAVOLT_AMPERE:
-                unece_code: 'MVA'
-                convert: [{'mul': 1000000}]
-                symbol: 'MV·A'
-                name: 'megavolt - ampere'
-            KILOVOLT_AMPERE:
-                unece_code: 'KVA'
-                convert: [{'mul': 1000}]
-                symbol: 'kV·A'
-                name: 'kilovolt - ampere'
-            MILLIVOLT_AMPERE:
-                unece_code: 'M35'
-                convert: [{'mul': 1}]
-                symbol: 'mV·A'
-                name: 'millivolt - ampere'
             JOULE_PER_SECOND:
                 unece_code: 'P14'
                 convert: [{'mul': 1}]
@@ -118,3 +98,42 @@ measures_config:
                 convert: [{'mul': 1000}, {'div': 86400}]
                 symbol: 'kJ/d'
                 name: 'kilojoule per day'
+
+            # apparent power
+            VOLT_AMPERE:
+                unece_code: 'D46'
+                convert: [{'mul': 1}]
+                symbol: 'V·A'
+                name: 'volt - ampere'
+            MEGAVOLT_AMPERE:
+                unece_code: 'MVA'
+                convert: [{'mul': 1000000}]
+                symbol: 'MV·A'
+                name: 'megavolt - ampere'
+            KILOVOLT_AMPERE:
+                unece_code: 'KVA'
+                convert: [{'mul': 1000}]
+                symbol: 'kV·A'
+                name: 'kilovolt - ampere'
+            MILLIVOLT_AMPERE:
+                unece_code: 'M35'
+                convert: [{'mul': 1}]
+                symbol: 'mV·A'
+                name: 'millivolt - ampere'
+
+            # reactive power
+            VAR:
+                unece_code: 'D44'
+                convert: [{'mul': 1}]
+                symbol: 'var'
+                name: 'var'
+            KILOVAR:
+                unece_code: 'KVR'
+                convert: [{'mul': 1000}]
+                symbol: 'kvar'
+                name: 'kilovar'
+            MEGAVAR:
+                unece_code: 'MAR'
+                convert: [{'mul': 1000000}]
+                symbol: 'Mvar'
+                name: 'megavar'
