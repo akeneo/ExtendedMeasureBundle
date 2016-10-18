@@ -1,0 +1,15 @@
+measures_config:
+    Resolution:
+        units:
+            DPI:
+                unece_code: 'E39'
+                symbol: 'dpi'
+                name: 'dots per inch'
+            PPI:
+                unece_code: 'PQ'
+                symbol: 'ppi'
+                name: 'page per inch'
+            BIT:
+                unece_code: 'A99'
+                symbol: 'bit'
+                name: 'bit'
