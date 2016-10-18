@@ -2,8 +2,10 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -42,6 +44,10 @@ class PimExtendedMeasureExtension extends Extension
             }
         }
         $preset = $container->getParameter('akeneo_measure.measures_config');
-        $container->setParameter('akeneo_measure.measures_config', array_replace_recursive($preset, $measuresConfig));
+        $measuresConfig = array_replace_recursive($preset, $measuresConfig);
+        $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
     }
 }
