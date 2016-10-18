@@ -24,6 +24,8 @@ class ConfigurationValidator
      */
     public function validate($config)
     {
+        $this->errors = [];
+
         foreach ($config['measures_config'] as $family => $familyConfig) {
             $this->validateFamilyUnits($familyConfig['units'], $family);
         }
@@ -39,7 +41,6 @@ class ConfigurationValidator
     {
         $options = new OptionsResolver();
         $this->configureOptions($options);
-        $this->errors = [];
         $familyUnits = [];
         foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
             try {
