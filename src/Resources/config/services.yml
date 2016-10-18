@@ -1,0 +1,8 @@
+parameters:
+    pim_extended_measures.mapper.class: Pim\Bundle\ExtendedMeasureBundle\Mapper\MeasureMapper
+
+services:
+    pim_extended_measures.mapper:
+        class: '%pim_extended_measures.mapper.class%'
+        arguments:
+            - '%akeneo_measure.measures_config%'
