@@ -106,7 +106,7 @@ measures_config:
                 name: 'microliter'
             KILOLITER:
                 unece_code: 'K6'
-                convert: [{'mul': 1000}]
+                convert: [{'mul': 1}]
                 symbol: 'kl'
                 name: 'kiloliter'
             DECALITER:

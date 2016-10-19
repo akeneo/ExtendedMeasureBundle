@@ -1,5 +1,5 @@
 measures_config:
-    FlowRate:
+    MassFlowRate:
         standard: KILOGRAM_PER_SECOND
         units:
             KILOGRAM_PER_SECOND:
