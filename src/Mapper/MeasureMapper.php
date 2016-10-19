@@ -2,8 +2,8 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\Mapper;
 
-use Pim\Bundle\ExtendedMeasureBundle\Exception\DuplicateUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 
 /**
  * Map a measure to a a PIM unit
@@ -46,10 +46,10 @@ class MeasureMapper
     public function getPimUnit($unit)
     {
         if (array_key_exists($unit, $this->unresolvableUnits)) {
-            throw new DuplicateUnitException();
+            throw new UnresolvableUnitException($this->unresolvableUnits[$unit]);
         }
         if (!array_key_exists($unit, $this->unitNames)) {
-            throw new UnknownUnitException();
+            throw new UnknownUnitException($unit);
         }
 
         return [
@@ -100,15 +100,23 @@ class MeasureMapper
     private function resolveUnit($unit, $pimUnitName, $unitFamily)
     {
         if (isset($this->unresolvableUnits[$unit])) {
-            return;
-        }
-        if (!isset($this->unitNames[$unit])) {
-            $this->unitNames[$unit] = $pimUnitName;
-            $this->unitFamilies[$unit] = $unitFamily;
-        } else {
+            $this->unresolvableUnits[$unit]->addUnresolvableMeasure(
+                new UnresolvableMeasure($unitFamily, $pimUnitName, $unit)
+            );
+        } elseif (isset($this->unitNames[$unit])) {
+            $unresolvableUnits = new UnresolvableMeasureCollection();
+            $unresolvableUnits->addUnresolvableMeasure(
+                new UnresolvableMeasure($this->unitFamilies[$unit], $this->unitNames[$unit], $unit)
+            );
+            $unresolvableUnits->addUnresolvableMeasure(
+                new UnresolvableMeasure($unitFamily, $pimUnitName, $unit)
+            );
+            $this->unresolvableUnits[$unit] = $unresolvableUnits;
             unset($this->unitNames[$unit]);
             unset($this->unitFamilies[$unit]);
-            $this->unresolvableUnits[$unit] = 1;
+        } else {
+            $this->unitNames[$unit] = $pimUnitName;
+            $this->unitFamilies[$unit] = $unitFamily;
         }
     }
 }

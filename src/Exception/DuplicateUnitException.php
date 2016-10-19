@@ -7,4 +7,5 @@ namespace Pim\Bundle\ExtendedMeasureBundle\Exception;
  */
 class DuplicateUnitException extends \RuntimeException
 {
+    protected $message = 'A unit cannot belong to more than one measure in the same family.';
 }
