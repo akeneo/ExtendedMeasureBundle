@@ -30,7 +30,7 @@ class MeasureMapper
     /**
      * @var array
      */
-    private $unresolvableUnits;
+    private $unresolvableMeasures;
 
     public function __construct(array $config)
     {
@@ -45,8 +45,12 @@ class MeasureMapper
      */
     public function getPimUnit($unit)
     {
-        if (array_key_exists($unit, $this->unresolvableUnits)) {
-            throw new UnresolvableUnitException($this->unresolvableUnits[$unit]);
+        if (array_key_exists($unit, $this->unresolvableMeasures)) {
+            $message = sprintf('Unable to resolve the unit "%s" in', $unit);
+            foreach ($this->unresolvableMeasures[$unit] as $unresolvables) {
+                $message .= vsprintf(' [family: %s, measure: %s]', $unresolvables);
+            }
+            throw new UnresolvableUnitException($message);
         }
         if (!array_key_exists($unit, $this->unitNames)) {
             throw new UnknownUnitException($unit);
@@ -66,10 +70,10 @@ class MeasureMapper
     private function buildResolvableUnits($measuresConfig)
     {
         $this->unitNames = [];
-        $this->unresolvableUnits = [];
-        foreach ($measuresConfig as $unitFamily => $units) {
+        $this->unresolvableMeasures = [];
+        foreach ($measuresConfig as $pimFamily => $units) {
             foreach ($units['units'] as $pimUnit => $unitConfig) {
-                $this->parseUnit($unitConfig, $pimUnit, $unitFamily);
+                $this->parseUnit($unitConfig, $pimUnit, $pimFamily);
             }
         }
     }
@@ -77,17 +81,17 @@ class MeasureMapper
     /**
      * @param array  $unitConfig
      * @param string $pimUnitName
-     * @param string $unitFamily
+     * @param string $pimFamily
      */
-    private function parseUnit(array $unitConfig, $pimUnitName, $unitFamily)
+    private function parseUnit(array $unitConfig, $pimUnitName, $pimFamily)
     {
-        $this->resolveUnit($unitConfig['symbol'], $pimUnitName, $unitFamily);
+        $this->resolveUnit($unitConfig['symbol'], $pimUnitName, $pimFamily);
         if (isset($unitConfig['unece_code'])) {
-            $this->resolveUnit($unitConfig['unece_code'], $pimUnitName, $unitFamily);
+            $this->resolveUnit($unitConfig['unece_code'], $pimUnitName, $pimFamily);
         }
         if (isset($unitConfig['alternative_units'])) {
             foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
-                $this->resolveUnit($alternativeUnit, $pimUnitName, $unitFamily);
+                $this->resolveUnit($alternativeUnit, $pimUnitName, $pimFamily);
             }
         }
     }
@@ -95,28 +99,22 @@ class MeasureMapper
     /**
      * @param string $unit
      * @param string $pimUnitName
-     * @param string $unitFamily
+     * @param string $pimFamily
      */
-    private function resolveUnit($unit, $pimUnitName, $unitFamily)
+    private function resolveUnit($unit, $pimUnitName, $pimFamily)
     {
-        if (isset($this->unresolvableUnits[$unit])) {
-            $this->unresolvableUnits[$unit]->addUnresolvableMeasure(
-                new UnresolvableMeasure($unitFamily, $pimUnitName, $unit)
-            );
+        if (isset($this->unresolvableMeasures[$unit])) {
+            $this->unresolvableMeasures[$unit][] = [$pimFamily, $pimUnitName];
         } elseif (isset($this->unitNames[$unit])) {
-            $unresolvableUnits = new UnresolvableMeasureCollection();
-            $unresolvableUnits->addUnresolvableMeasure(
-                new UnresolvableMeasure($this->unitFamilies[$unit], $this->unitNames[$unit], $unit)
-            );
-            $unresolvableUnits->addUnresolvableMeasure(
-                new UnresolvableMeasure($unitFamily, $pimUnitName, $unit)
-            );
-            $this->unresolvableUnits[$unit] = $unresolvableUnits;
+            $this->unresolvableMeasures[$unit] = [
+                [$this->unitFamilies[$unit], $this->unitNames[$unit]],
+                [$pimFamily, $pimUnitName],
+            ];
             unset($this->unitNames[$unit]);
             unset($this->unitFamilies[$unit]);
         } else {
             $this->unitNames[$unit] = $pimUnitName;
-            $this->unitFamilies[$unit] = $unitFamily;
+            $this->unitFamilies[$unit] = $pimFamily;
         }
     }
 }
