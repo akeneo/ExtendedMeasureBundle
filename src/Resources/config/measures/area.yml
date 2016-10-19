@@ -47,9 +47,6 @@ measures_config:
                 convert: [{'mul': 1000000}]
                 symbol: 'km²'
                 name: 'square kilometer'
-            SQUARE_MIL:
-                convert: [{'mul': 0.00000000064516}]
-                symbol: sq mil
             SQUARE_INCH:
                 unece_code: 'INK'
                 convert: [{'mul': 0.00064516}]

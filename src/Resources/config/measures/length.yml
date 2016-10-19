@@ -16,6 +16,11 @@ measures_config:
                 convert: [{'mul': 0.1}]
                 symbol: 'dm'
                 name: 'decimeter'
+            METER:
+                unece_code: 'MTR'
+                convert: [{'mul': 1}]
+                symbol: 'm'
+                name: 'meter'
             DEKAMETER:
                 unece_code: 'A45'
                 convert: [{'mul': 10}]
