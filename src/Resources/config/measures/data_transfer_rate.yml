@@ -71,3 +71,17 @@ measures_config:
             GIGABYTE_PER_SECOND:
                 convert: [{'mul': 8000000000}]
                 symbol: 'GByte/s'
+                name: 'gigabyte per second'
+
+            MEGABYTE_PER_HOUR:
+                convert: [{'mul': 8000000}, {'mul': 3600}]
+                symbol: 'MByte/h'
+                name: 'megabyte per hour'
+            GIGABYTE_PER_HOUR:
+                convert: [{'mul': 8000000000}, {'mul': 3600}]
+                symbol: 'GByte/h'
+                name: 'gigabyte per hour'
+            TERABYTE_PER_HOUR:
+                convert: [{'mul': 8000000000}, {'mul': 3600}]
+                symbol: 'TByte/h'
+                name: 'terabyte per hour'
