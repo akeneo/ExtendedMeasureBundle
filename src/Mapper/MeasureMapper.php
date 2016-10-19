@@ -28,10 +28,15 @@ class MeasureMapper
     private $unitFamilies;
 
     /**
+     * Unresolvable measures because of a unit in more than one family
+     *
      * @var array
      */
     private $unresolvableMeasures;
 
+    /**
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -39,11 +44,13 @@ class MeasureMapper
     }
 
     /**
+     * Retrieve a PIM measure from a unit (Hz, Km, ...)
+     *
      * @param string $unit
      *
      * @return array
      */
-    public function getPimUnit($unit)
+    public function getPimMeasure($unit)
     {
         if (array_key_exists($unit, $this->unresolvableMeasures)) {
             $message = sprintf('Unable to resolve the unit "%s" in', $unit);
@@ -79,6 +86,14 @@ class MeasureMapper
     }
 
     /**
+     * Parse one measure definition:
+     *      CUBIC_MILLIMETER:
+     *          unece_code: 'MMQ'
+     *          convert: [{'mul': 0.000000001}]
+     *          symbol: 'mm³'
+     *          name: 'cubic millimeter'
+     *          alternative_units: ['foo', 'bar']
+     *
      * @param array  $unitConfig
      * @param string $pimUnitName
      * @param string $pimFamily
@@ -97,6 +112,8 @@ class MeasureMapper
     }
 
     /**
+     * Identify unresolvable units that are in more than one family.
+     *
      * @param string $unit
      * @param string $pimUnitName
      * @param string $pimFamily
@@ -105,7 +122,7 @@ class MeasureMapper
     {
         if (isset($this->unresolvableMeasures[$unit])) {
             $this->unresolvableMeasures[$unit][] = [$pimFamily, $pimUnitName];
-        } elseif (isset($this->unitNames[$unit])) {
+        } elseif (isset($this->unitFamilies[$unit])) {
             $this->unresolvableMeasures[$unit] = [
                 [$this->unitFamilies[$unit], $this->unitNames[$unit]],
                 [$pimFamily, $pimUnitName],

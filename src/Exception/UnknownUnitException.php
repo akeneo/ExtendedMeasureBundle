@@ -3,6 +3,8 @@
 namespace Pim\Bundle\ExtendedMeasureBundle\Exception;
 
 /**
+ * Exception thrown when tryin to identify a unit not in PIM config.
+ *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
 class UnknownUnitException extends \RuntimeException
