@@ -21,9 +21,27 @@ class PimExtendedMeasureExtension extends Extension
     {
         $measuresConfig = [];
 
-        $configDirectory = __DIR__ . '/../Resources/config/measures';
+        foreach ($container->getParameter('kernel.bundles') as $bundle) {
+            $reflection = new \ReflectionClass($bundle);
+            if (is_dir($configDirectory = dirname($reflection->getFileName()).'/Resources/config/measures')) {
+                $bundleConfig = $this->parseBundleMeasures($configDirectory);
+                $measuresConfig = array_replace_recursive($measuresConfig, $bundleConfig);
+            }
+        }
+
+        $coreConfig = $container->getParameter('akeneo_measure.measures_config');
+        $measuresConfig = array_replace_recursive($coreConfig, $measuresConfig);
+        $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
+    }
+
+    protected function parseBundleMeasures($configDirectory)
+    {
         $measuresFinder = new Finder();
         $measuresFinder->files()->in($configDirectory)->name(('*.yml'));
+        $measuresConfig = [];
 
         foreach ($measuresFinder as $file) {
             if (empty($measuresConfig)) {
@@ -43,11 +61,7 @@ class PimExtendedMeasureExtension extends Extension
                 }
             }
         }
-        $preset = $container->getParameter('akeneo_measure.measures_config');
-        $measuresConfig = array_replace_recursive($preset, $measuresConfig);
-        $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        return $measuresConfig;
     }
 }

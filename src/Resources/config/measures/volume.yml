@@ -140,7 +140,7 @@ measures_config:
                 convert: [{'mul': 0.0009463529}]
                 symbol: 'qt (US)'
                 name: 'quart (US)'
-                alternative_units: ['liq qt (US)')]
+                alternative_units: ['liq qt (US)']
             DRY_PINT:
                 unece_code: 'PTD'
                 convert: [{'mul': 0.0005506105}]
