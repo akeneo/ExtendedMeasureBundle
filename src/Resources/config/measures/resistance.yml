@@ -35,8 +35,8 @@ measures_config:
             MICROOHM:
                 unece_code: 'B94'
                 convert: [{'mul': 0.000001}]
-                symbol: 'mΩ'
-                name: 'milliohm'
+                symbol: 'µΩ'
+                name: 'microohm'
             NANOOHM:
                 unece_code: 'P22'
                 convert: [{'mul': 0.000000001}]
