@@ -1,16 +1,16 @@
 <?php
 
-namespace Pim\Bundle\ExtendedMeasureBundle\Mapper;
+namespace Pim\Bundle\ExtendedMeasureBundle\Resolver;
 
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 
 /**
- * Map a measure to a a PIM unit
+ * Resolve a measure to a a PIM unit
  *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
-class MeasureMapper
+class MeasureResolver implements MeasureResolverInterface
 {
     /**
      * @var array
@@ -50,7 +50,7 @@ class MeasureMapper
      *
      * @return array
      */
-    public function getPimMeasure($unit)
+    public function resolvePimMeasure($unit)
     {
         if (array_key_exists($unit, $this->unresolvableMeasures)) {
             $message = sprintf('Unable to resolve the unit "%s" in', $unit);

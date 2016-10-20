@@ -40,8 +40,8 @@ class FindUnitCommand extends ContainerAwareCommand
         $this->output = $output;
         $unit = $input->getArgument('unit');
         $this->write(sprintf('Search for measure <info>%s</info>', $unit));
-        $mapper = $this->getContainer()->get('pim_extended_measures.mapper');
-        $measure = $mapper->getPimMeasure($unit);
+        $resolver = $this->getContainer()->get('pim_extended_measures.resolver');
+        $measure = $resolver->resolvePimMeasure($unit);
         dump($measure);
     }
 
