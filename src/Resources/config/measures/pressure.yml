@@ -1,0 +1,85 @@
+measures_config:
+    Pressure:
+        standard: BAR
+        units:
+            MILLIBAR:
+                unece_code: 'MBR'
+                convert: [{'mul': 1000}]
+                symbol: 'mBar'
+                name: 'millibar'
+            BAR:
+                unece_code: 'BAR'
+                convert: [{'mul': 1}]
+                symbol: 'bar'
+                name: 'bar'
+            PASCAL:
+                unece_code: 'PAL'
+                convert: [{'div': 100000}]
+                symbol: 'Pa'
+                name: 'pascal'
+            HECTOPASCAL:
+                unece_code: 'A97'
+                convert: [{'div': 1000}]
+                symbol: 'hPa'
+                name: 'hectopascal'
+            ATM:
+                unece_code: 'ATM'
+                convert: [{'mul': 0.986923}]
+                symbol: atm
+                name: 'standard atmosphere'
+            PSI:
+                convert: [{'mul': 14.50376985373022}]
+                symbol: PSI
+            TORR:
+                convert: [{'mul': 750.06375541921}]
+                symbol: Torr
+            MMHG:
+                convert: [{'mul': 750.06375541921}]
+                symbol: mmHg
+            # Added
+            MICROPASCAL:
+                unece_code: 'B96'
+                convert: [{'div': 100000000000}]
+                symbol: 'µPa'
+                name: 'micropascal'
+            MILLIPASCAL:
+                unece_code: '74'
+                convert: [{'div': 100000000}]
+                symbol: 'mPa'
+                name: 'millipascal'
+            MEGAPASCAL:
+                unece_code: 'MPA'
+                convert: [{'mul': 10}]
+                symbol: 'MPa'
+                name: 'megapascal'
+            DECAPASCAL:
+                unece_code: 'H75'
+                convert: [{'div': 10000}]
+                symbol: 'daPa'
+                name: 'decapascal'
+            KILOPASCAL:
+                unece_code: 'KPA'
+                convert: [{'div': 100'}]
+                symbol: 'kPa'
+                name: 'kilopascal'
+            GIGAPASCAL:
+                unece_code: 'A89'
+                convert: [{'mul': 10000}]
+                symbol: 'GPa'
+                name: 'gigapascal'
+
+            MICROBAR:
+                unece_code: 'B85'
+                convert: [{'div': 1000000}]
+                symbol: 'µbar'
+                name: 'microbar'
+            HECTOBAR:
+                unece_code: 'HBA'
+                convert: [{'mul': 100}]
+                symbol: 'hbar'
+                name: 'hectobar'
+            KILOBAR:
+                unece_code: 'HBA'
+                convert: [{'mul': 1000}]
+                symbol: 'kbar'
+                name: 'kilobar'
