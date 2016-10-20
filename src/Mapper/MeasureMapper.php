@@ -106,6 +106,10 @@ class MeasureMapper
         }
         if (isset($unitConfig['alternative_units'])) {
             foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
+                // process UTF8 entities. Using json_decode is a bit hacky, but it is the simplest way
+                if (strpos($alternativeUnit, '\u') === 0) {
+                    $alternativeUnit = json_decode('"' . $alternativeUnit . '"');
+                }
                 $this->resolveUnit($alternativeUnit, $pimUnitName, $pimFamily);
             }
         }

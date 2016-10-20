@@ -6,8 +6,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
@@ -19,34 +17,6 @@ class PimExtendedMeasureExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container)
     {
-        $measuresConfig = [];
-
-        $configDirectory = __DIR__ . '/../Resources/config/measures';
-        $measuresFinder = new Finder();
-        $measuresFinder->files()->in($configDirectory)->name(('*.yml'));
-
-        foreach ($measuresFinder as $file) {
-            if (empty($measuresConfig)) {
-                $measuresConfig = Yaml::parse($file->getContents());
-            } else {
-                $entities = Yaml::parse($file->getContents());
-                foreach ($entities['measures_config'] as $family => $familyConfig) {
-                    if (isset($measuresConfig['measures_config'][$family])) {
-                        $measuresConfig['measures_config'][$family]['units'] =
-                            array_merge(
-                                $measuresConfig['measures_config'][$family]['units'],
-                                $familyConfig['units']
-                            );
-                    } else {
-                        $measuresConfig['measures_config'][$family] = $familyConfig;
-                    }
-                }
-            }
-        }
-        $preset = $container->getParameter('akeneo_measure.measures_config');
-        $measuresConfig = array_replace_recursive($preset, $measuresConfig);
-        $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
