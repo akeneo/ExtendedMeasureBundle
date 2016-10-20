@@ -1,5 +1,5 @@
 measures_config:
-    ActiveEnergy:
+    Energy:
         standard: JOULE
         units:
             JOULE:
@@ -52,6 +52,14 @@ measures_config:
                 convert: [{'div': 1000000000000000000}]
                 symbol: 'aJ'
                 name: 'attojoule'
+            CALORIE:
+                convert: [{'div': 4.184}]
+                symbol: 'cal'
+                name: 'calorie'
+            KILOCALORIE:
+                convert: [{'div': 4184}]
+                symbol: 'kcal'
+                name: 'kilocalorie'
             WATT_HOUR:
                 unece_code: 'WHR'
                 convert: [{'mul': 3600}]
@@ -67,6 +75,7 @@ measures_config:
                 convert: [{'mul': 3600000}]
                 symbol: 'kW·h'
                 name: 'kilowatt hour'
+                alternative_units: ['kWh']
             GIGAWATT_HOUR:
                 unece_code: 'GWH'
                 convert: [{'mul': 3600000000000}]
