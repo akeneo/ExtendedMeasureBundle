@@ -80,6 +80,7 @@ measures_config:
                 convert: [{'mul': 0.001}, {'mul': 86400}]
                 symbol: 'l/d'
                 name: 'liter per day'
+
             KILOLITER_PER_HOUR:
                 unece_code: '4X'
                 convert: [{'mul': 3600}]
