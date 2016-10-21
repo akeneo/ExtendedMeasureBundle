@@ -1,5 +1,9 @@
 <?php
+
 namespace Pim\Bundle\ExtendedMeasureBundle\Resolver;
+
+use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 
 /**
  * Resolve a measure to a a PIM unit
@@ -14,6 +18,9 @@ interface MeasureResolverInterface
      * @param string $unit
      *
      * @return array
+     *
+     * @throws UnresolvableUnitException
+     * @throws UnknownUnitException
      */
     public function resolvePimMeasure($unit);
 }

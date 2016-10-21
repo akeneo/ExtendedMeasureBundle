@@ -44,11 +44,7 @@ class MeasureResolver implements MeasureResolverInterface
     }
 
     /**
-     * Retrieve a PIM measure from a unit (Hz, Km, ...)
-     *
-     * @param string $unit
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function resolvePimMeasure($unit)
     {
