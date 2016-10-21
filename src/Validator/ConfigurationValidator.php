@@ -21,6 +21,8 @@ class ConfigurationValidator
      * @param array $config
      *
      * @return array
+     *
+     * @throws DuplicateUnitException
      */
     public function validate($config)
     {
@@ -36,6 +38,8 @@ class ConfigurationValidator
     /**
      * @param array  $unitsConfig
      * @param string $familyName
+     *
+     * @throws DuplicateUnitException
      */
     public function validateFamilyUnits(array $unitsConfig, $familyName)
     {
