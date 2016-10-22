@@ -1,0 +1,5 @@
+suites:
+    default:
+        namespace: Pim\Bundle\ExtendedMeasureBundle
+        psr4_prefix: Pim\Bundle\ExtendedMeasureBundle
+        src_path: .

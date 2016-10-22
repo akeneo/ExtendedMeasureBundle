@@ -1,0 +1,21 @@
+measures_config:
+    Weight:
+        standard: 'g'
+        units:
+            KILOGRAM:
+                symbol: 'kg'
+                convert: [{'mul': 1000}]
+                name: 'kilogram'
+                unece_code: 'KGM'
+                alternative_units: ['kilo', 'kilogramme']
+
+            WRONGMETER:
+                convert: [{'mul': 666}]
+                symbol: 'm'
+
+    Length:
+        standard: 'METER'
+        units:
+            METER:
+                convert: [{'mul': 1}]
+                symbol: 'm'
