@@ -2,8 +2,9 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\Validator;
 
+use Pim\Bundle\ExtendedMeasureBundle\DependencyInjection\MeasuresConfiguration;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\DuplicateUnitException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Config\Definition\Processor;
 
 /**
  * Validate the measures configuration
@@ -26,9 +27,14 @@ class ConfigurationValidator
      */
     public function validate($config)
     {
+        $processor = new Processor();
+        $configTree = new MeasuresConfiguration();
+
+        $config = $processor->processConfiguration($configTree, $config);
+
         $this->errors = [];
 
-        foreach ($config['measures_config'] as $family => $familyConfig) {
+        foreach ($config as $family => $familyConfig) {
             $this->validateFamilyUnits($familyConfig['units'], $family);
         }
 
@@ -41,14 +47,11 @@ class ConfigurationValidator
      *
      * @throws DuplicateUnitException
      */
-    public function validateFamilyUnits(array $unitsConfig, $familyName)
+    protected function validateFamilyUnits(array $unitsConfig, $familyName)
     {
-        $options = new OptionsResolver();
-        $this->configureOptions($options);
         $familyUnits = [];
         foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
             try {
-                $unitConfig = $options->resolve($unitConfig);
                 $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['symbol'], $familyUnits);
                 if (isset($unitConfig['unece_code'])) {
                     $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['unece_code'], $familyUnits);
@@ -78,22 +81,5 @@ class ConfigurationValidator
         $existingUnits[] = $unit;
 
         return $existingUnits;
-    }
-
-    /**
-     * @param OptionsResolver $options
-     */
-    private function configureOptions(OptionsResolver $options)
-    {
-        $options->setRequired('convert');
-        $options->setAllowedTypes('convert', 'array');
-        $options->setRequired('symbol');
-        $options->setAllowedTypes('symbol', 'string');
-        $options->setDefined('unece_code');
-        $options->setAllowedTypes('unece_code', 'string');
-        $options->setDefined('name');
-        $options->setAllowedTypes('name', 'string');
-        $options->setDefined('alternative_units');
-        $options->setAllowedTypes('alternative_units', 'array');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
@@ -31,7 +32,7 @@ class MeasuresCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $measuresConfig = [];
+        $measuresConfig = ['measures_config' => []];
 
         $measuresFinder = new Finder();
         $measuresFinder->files()->in($this->configDirectory)->name(('*.yml'));
@@ -53,20 +54,20 @@ class MeasuresCompilerPass implements CompilerPassInterface
      */
     protected function processFile(SplFileInfo $file, array $measuresConfig)
     {
-        if (empty($measuresConfig)) {
-            $measuresConfig = Yaml::parse($file->getContents());
-        } else {
-            $entities = Yaml::parse($file->getContents());
-            foreach ($entities['measures_config'] as $family => $familyConfig) {
-                if (isset($measuresConfig['measures_config'][$family])) {
-                    $measuresConfig['measures_config'][$family]['units'] =
-                        array_merge(
-                            $measuresConfig['measures_config'][$family]['units'],
-                            $familyConfig['units']
-                        );
-                } else {
-                    $measuresConfig['measures_config'][$family] = $familyConfig;
-                }
+        $processor = new Processor();
+        $configTree = new MeasuresConfiguration();
+
+        $entities = $processor->processConfiguration($configTree, Yaml::parse($file->getContents()));
+
+        foreach ($entities as $family => $familyConfig) {
+            if (isset($measuresConfig['measures_config'][$family])) {
+                $measuresConfig['measures_config'][$family]['units'] =
+                    array_merge(
+                        $measuresConfig['measures_config'][$family]['units'],
+                        $familyConfig['units']
+                    );
+            } else {
+                $measuresConfig['measures_config'][$family] = $familyConfig;
             }
         }
 
