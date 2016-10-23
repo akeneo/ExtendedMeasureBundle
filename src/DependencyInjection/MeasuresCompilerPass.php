@@ -32,7 +32,7 @@ class MeasuresCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $measuresConfig = ['measures_config' => []];
+        $measuresConfig = [];
 
         $measuresFinder = new Finder();
         $measuresFinder->files()->in($this->configDirectory)->name(('*.yml'));
@@ -40,6 +40,10 @@ class MeasuresCompilerPass implements CompilerPassInterface
         foreach ($measuresFinder as $file) {
             $measuresConfig = $this->processFile($file, $measuresConfig);
         }
+
+        $processor = new Processor();
+        $configTree = new MeasuresConfiguration();
+        $measuresConfig['measures_config'] = $processor->processConfiguration($configTree, $measuresConfig);
 
         $preset = $container->getParameter('akeneo_measure.measures_config');
         $measuresConfig = array_replace_recursive($preset, $measuresConfig);
@@ -54,15 +58,12 @@ class MeasuresCompilerPass implements CompilerPassInterface
      */
     protected function processFile(SplFileInfo $file, array $measuresConfig)
     {
-        $processor = new Processor();
-        $configTree = new MeasuresConfiguration();
+        $entities = Yaml::parse($file->getContents());
 
-        $entities = $processor->processConfiguration($configTree, Yaml::parse($file->getContents()));
-
-        foreach ($entities as $family => $familyConfig) {
+        foreach ($entities['measures_config'] as $family => $familyConfig) {
             if (isset($measuresConfig['measures_config'][$family])) {
                 $measuresConfig['measures_config'][$family]['units'] =
-                    array_merge(
+                    array_merge_recursive(
                         $measuresConfig['measures_config'][$family]['units'],
                         $familyConfig['units']
                     );

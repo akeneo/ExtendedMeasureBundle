@@ -42,11 +42,11 @@ class MeasureResolverSpec extends ObjectBehavior
                 ]
             );
         $this
-            ->resolvePimMeasure('kilogramme')
+            ->resolvePimMeasure('mt')
             ->shouldReturn(
                 [
-                    'family' => 'Weight',
-                    'unit'   => 'KILOGRAM'
+                    'family' => 'Length',
+                    'unit'   => 'METER'
                 ]
             );
     }
@@ -74,7 +74,7 @@ class MeasureResolverSpec extends ObjectBehavior
 
     public function it_throws_an_exception_for_unresolvable_unit()
     {
-        $message = 'Unable to resolve the unit "m" in [family: Weight, measure: WRONGMETER] [family: Length, measure: METER]';
+        $message = 'Unable to resolve the unit "m" in [family: Weight, measure: BADMETER] [family: Length, measure: METER]';
         $this
             ->shouldThrow(
                 new UnresolvableUnitException($message)

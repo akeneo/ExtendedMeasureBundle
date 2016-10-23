@@ -1,51 +1,44 @@
 <?php
 return [
     'measures_config' => [
-        'SpecFamily' => [
-            'standard' => 'SPEC_STANDARD',
+        'Weight' => [
+            'standard' => 'GRAM',
             'units'    => [
-                'SPEC_STANDARD' => [
+                'GRAM'     => [
                     'convert'           => [['mul' => 1]],
-                    'symbol'            => 'spec',
-                    'name'              => 'standard for the specs',
-                    'unece_code'        => 'fooCode',
-                    'alternative_units' => []
+                    'symbol'            => 'g',
+                    'name'              => 'gram',
+                    'unece_code'        => 'GRM',
+                    'alternative_units' => [],
                 ],
-                'KILO_STANDARD' => [
-                    'convert'           => [['mul' => 1000]],
-                    'symbol'            => 'kilospec',
-                    'name'              => 'kilo measure of the standard',
-                    'unece_code'        => 'barCode',
-                    'alternative_units' => ['kylo']
-                ]
-            ]
-        ],
-        'Weight'     => [
-            'standard' => 'g',
-            'units'    => [
-                'KILOGRAM'   => [
+                'KILOGRAM'     => [
                     'convert'           => [['mul' => 1000]],
                     'symbol'            => 'kg',
-                    'name'              => 'kilogram',
+                    'name'              => 'kilo gram',
                     'unece_code'        => 'KGM',
-                    'alternative_units' => ['kilo', 'kilogramme']
+                    'alternative_units' => ['kilo'],
                 ],
-                'WRONGMETER' => [
-                    'symbol'            => 'm',
+                'BADMETER' => [
                     'convert'           => [['mul' => 666]],
-                    'alternative_units' => []
-                ]
-            ]
+                    'symbol'            => 'm',
+                    'alternative_units' => [],
+                ],
+            ],
         ],
-        'Length'     => [
+        'Length' => [
             'standard' => 'METER',
             'units'    => [
                 'METER' => [
-                    'symbol'            => 'm',
                     'convert'           => [['mul' => 1]],
-                    'alternative_units' => []
-                ]
-            ]
-        ]
+                    'symbol'            => 'm',
+                    'alternative_units' => ['mt'],
+                ],
+                'KILOMETER' => [
+                    'convert'           => [['mul' => 1000]],
+                    'symbol'            => 'km',
+                    'alternative_units' => [],
+                ],
+            ],
+        ],
     ]
 ];
