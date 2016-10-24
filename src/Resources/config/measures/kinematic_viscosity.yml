@@ -6,7 +6,7 @@ measures_config:
                 unece_code: 'S4'
                 convert: [{'mul': 1}]
                 symbol: 'm²/s'
-            MILLIMETER_SQUARED_PER_SECOND:
+            SQUARE_MILLIMETER_PER_SECOND:
                 unece_code: 'C17'
                 convert: [{'div': 1000000}]
                 symbol: 'mm²/s'
