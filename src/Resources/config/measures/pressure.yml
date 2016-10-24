@@ -1,6 +1,5 @@
 measures_config:
     Pressure:
-        standard: BAR
         units:
             MILLIBAR:
                 unece_code: 'MBR'
@@ -9,8 +8,6 @@ measures_config:
                 name: 'millibar'
             BAR:
                 unece_code: 'BAR'
-                convert: [{'mul': 1}]
-                symbol: 'bar'
                 name: 'bar'
             PASCAL:
                 unece_code: 'PAL'

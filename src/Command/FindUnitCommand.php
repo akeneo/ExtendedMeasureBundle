@@ -14,9 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class FindUnitCommand extends ContainerAwareCommand
 {
-    /** @var OutputInterface */
-    private $output;
-
     /**
      * {@inheritdoc}
      */
@@ -37,19 +34,20 @@ class FindUnitCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
         $unit = $input->getArgument('unit');
-        $this->write(sprintf('Search for measure <info>%s</info>', $unit));
-        $resolver = $this->getContainer()->get('pim_extended_measures.resolver');
-        $measure = $resolver->resolvePimMeasure($unit);
-        dump($measure);
+        $this->write($output, sprintf('Search for measure <info>%s</info>', $unit));
+        $resolver = $this->getContainer()->get('pim_extended_measures.repository');
+        $measure = $resolver->findByUnit($unit);
+        $this->write($output, sprintf('Family = <info>%s</info>', $measure['family']));
+        $this->write($output, sprintf('Unit = <info>%s</info>', $measure['unit']));
     }
 
     /**
-     * @param string $message
+     * @param OutputInterface $output
+     * @param string          $message
      */
-    private function write($message)
+    private function write(OutputInterface $output, $message)
     {
-        $this->output->writeln(sprintf('[%s] %s', date('Y-m-d H:i:s'), $message));
+        $output->writeln(sprintf('[%s] %s', date('Y-m-d H:i:s'), $message));
     }
 }

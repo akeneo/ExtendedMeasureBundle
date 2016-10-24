@@ -1,15 +1,14 @@
 measures_config:
     Resolution:
+        standard: DPI
         units:
             DPI:
                 unece_code: 'E39'
                 symbol: 'dpi'
+                convert: [{'mul': 1}]
                 name: 'dots per inch'
             PPI:
                 unece_code: 'PQ'
                 symbol: 'ppi'
-                name: 'page per inch'
-            BIT:
-                unece_code: 'A99'
-                symbol: 'bit'
-                name: 'bit'
+                convert: [{'mul': 1}]
+                name: 'pixel per inch'

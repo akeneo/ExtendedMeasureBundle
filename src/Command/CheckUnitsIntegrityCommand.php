@@ -2,7 +2,7 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\Command;
 
-use Pim\Bundle\ExtendedMeasureBundle\Validator\ConfigurationValidator;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\DuplicateUnitException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,8 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckUnitsIntegrityCommand extends ContainerAwareCommand
 {
-    /** @var OutputInterface */
-    private $output;
+    /** @var string[] */
+    protected $errors;
 
     /**
      * {@inheritdoc}
@@ -32,22 +32,68 @@ class CheckUnitsIntegrityCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-        $this->write("<info>Start measures checks</info>");
+        $this->write($output, "<info>Start measures checks</info>");
         $measuresConfiguration = $this->getContainer()->getParameter('akeneo_measure.measures_config');
-        $validator = new ConfigurationValidator();
-        $errors = $validator->validate($measuresConfiguration);
 
-        foreach ($errors as $error) {
-            $this->write($error);
+        $this->errors = [];
+
+        foreach ($measuresConfiguration['measures_config'] as $family => $familyConfig) {
+            $this->validateFamilyUnits($familyConfig['units'], $family);
+        }
+
+        foreach ($this->errors as $error) {
+            $this->write($output, $error);
         }
     }
 
     /**
-     * @param string $message
+     * @param array  $unitsConfig
+     * @param string $familyName
+     *
+     * @throws DuplicateUnitException
      */
-    private function write($message)
+    protected function validateFamilyUnits(array $unitsConfig, $familyName)
     {
-        $this->output->writeln(sprintf('[%s] %s', date('Y-m-d H:i:s'), $message));
+        $familyUnits = [];
+        foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
+            try {
+                $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['symbol'], $familyUnits);
+                if (isset($unitConfig['unece_code'])) {
+                    $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['unece_code'], $familyUnits);
+                }
+                if (isset($unitConfig['alternative_units'])) {
+                    foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
+                        $familyUnits = $this->checkFamilyUnitUnicity($alternativeUnit, $familyUnits);
+                    }
+                }
+            } catch (DuplicateUnitException $e) {
+                $this->errors[] = sprintf('%s -> %s: %s', $familyName, $akeneoUnit, $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @param string   $unit
+     * @param string[] $existingUnits
+     *
+     * @return string[]
+     */
+    private function checkFamilyUnitUnicity($unit, $existingUnits)
+    {
+        if (in_array($unit, $existingUnits)) {
+            throw new DuplicateUnitException('Unit already exists: ' . $unit);
+        }
+        $existingUnits[] = $unit;
+
+        return $existingUnits;
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param string          $message
+     */
+    private function write(OutputInterface $output, $message)
+    {
+        $output->writeln(sprintf('[%s] %s', date('Y-m-d H:i:s'), $message));
     }
 }

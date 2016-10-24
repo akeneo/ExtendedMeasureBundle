@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
@@ -42,6 +43,11 @@ class MeasuresCompilerPass implements CompilerPassInterface
 
         $preset = $container->getParameter('akeneo_measure.measures_config');
         $measuresConfig = array_replace_recursive($preset, $measuresConfig);
+
+        $processor = new Processor();
+        $configTree = new MeasuresConfiguration();
+        $measuresConfig['measures_config'] = $processor->processConfiguration($configTree, $measuresConfig);
+
         $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
     }
 
@@ -53,20 +59,17 @@ class MeasuresCompilerPass implements CompilerPassInterface
      */
     protected function processFile(SplFileInfo $file, array $measuresConfig)
     {
-        if (empty($measuresConfig)) {
-            $measuresConfig = Yaml::parse($file->getContents());
-        } else {
-            $entities = Yaml::parse($file->getContents());
-            foreach ($entities['measures_config'] as $family => $familyConfig) {
-                if (isset($measuresConfig['measures_config'][$family])) {
-                    $measuresConfig['measures_config'][$family]['units'] =
-                        array_merge(
-                            $measuresConfig['measures_config'][$family]['units'],
-                            $familyConfig['units']
-                        );
-                } else {
-                    $measuresConfig['measures_config'][$family] = $familyConfig;
-                }
+        $entities = Yaml::parse($file->getContents());
+
+        foreach ($entities['measures_config'] as $family => $familyConfig) {
+            if (isset($measuresConfig['measures_config'][$family])) {
+                $measuresConfig['measures_config'][$family]['units'] =
+                    array_merge_recursive(
+                        $measuresConfig['measures_config'][$family]['units'],
+                        $familyConfig['units']
+                    );
+            } else {
+                $measuresConfig['measures_config'][$family] = $familyConfig;
             }
         }
 
