@@ -14,6 +14,14 @@ measures_config:
                 unece_code: 'B48'
                 convert: [{'mul': 1000}]
                 symbol: 'kN·m'
+            DECINEWTON_METER:
+                unece_code: 'DN'
+                convert: [{'div': 10}]
+                symbol: 'dN·m'
+            CENTINEWTON_METER:
+                unece_code: 'J72'
+                convert: [{'div': 100}]
+                symbol: 'cN·m'
             MILLINEWTON_METER:
                 unece_code: 'D83'
                 convert: [{'div': 1000}]
