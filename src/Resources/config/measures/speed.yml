@@ -54,3 +54,10 @@ measures_config:
                 convert: [{'div': 60}]
                 symbol: 'm/min'
                 name: 'meter per minute'
+
+            INCH_PER_SECOND:
+                convert: [{'mul': 0.0254}]
+                symbol: 'inch/s'
+            INCH_PER_MINUTE:
+                convert: [{'mul': 0.0254}, {'div': 60}]
+                symbol: 'inch/s'

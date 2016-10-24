@@ -1,0 +1,12 @@
+measures_config:
+    RotationalFrequancy:
+        standard: REVOLUTIONS_PER_SECOND
+        units:
+            REVOLUTIONS_PER_SECOND:
+                unece_code: 'RPS'
+                convert: [{'mul': 1}]
+                symbol: 'r/s'
+            REVOLUTIONS_PER_MINUTE:
+                unece_code: 'RPM'
+                convert: [{'mul': 60}]
+                symbol: 'r/min'

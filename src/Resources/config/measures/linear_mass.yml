@@ -1,0 +1,12 @@
+measures_config:
+    LinearMass:
+        standard: KILOGRAM_PER_METER
+        units:
+            KILOGRAM_PER_METER:
+                unece_code: 'KL'
+                convert: [{'mul': 1}]
+                symbol: 'kg/m'
+            KILOGRAM_PER_KILOMETER:
+                unece_code: 'M31'
+                convert: [{'div': 1000}]
+                symbol: 'kg/km'
