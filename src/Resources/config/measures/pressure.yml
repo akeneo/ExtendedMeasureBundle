@@ -87,3 +87,9 @@ measures_config:
                 convert: [{'div': 10}]
                 symbol: 'N/cm²'
                 name: 'newton per square centimeter'
+
+            HN:
+                unece_code: 'HN'
+                name: 'conventional millimeter of mercury'
+                convert: [{'mul': 0.001333224}]
+                symbol: 'mm Hg'

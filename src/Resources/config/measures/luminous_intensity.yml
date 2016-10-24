@@ -1,5 +1,6 @@
 measures_config:
     LuminousIntensity:
+        standard: CANDELA
         units:
             CANDELA:
                 unece_code: 'CDL'
