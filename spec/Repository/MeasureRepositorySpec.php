@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\Pim\Bundle\ExtendedMeasureBundle\Resolver;
+namespace spec\Pim\Bundle\ExtendedMeasureBundle\Repository;
 
 use PhpSpec\ObjectBehavior;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
-use Pim\Bundle\ExtendedMeasureBundle\Resolver\MeasureResolverInterface;
+use Pim\Bundle\ExtendedMeasureBundle\Repository\MeasureRepositoryInterface;
 
 /**
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
-class MeasureResolverSpec extends ObjectBehavior
+class MeasureRepositorySpec extends ObjectBehavior
 {
     public function let()
     {
@@ -20,13 +20,13 @@ class MeasureResolverSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldImplement(MeasureResolverInterface::class);
+        $this->shouldImplement(MeasureRepositoryInterface::class);
     }
 
     public function it_returns_measure_from_a_unit()
     {
         $this
-            ->resolvePimMeasure('kg')
+            ->findByUnit('kg')
             ->shouldReturn(
                 [
                     'family' => 'Weight',
@@ -34,7 +34,7 @@ class MeasureResolverSpec extends ObjectBehavior
                 ]
             );
         $this
-            ->resolvePimMeasure('kilo')
+            ->findByUnit('kilo')
             ->shouldReturn(
                 [
                     'family' => 'Weight',
@@ -42,7 +42,7 @@ class MeasureResolverSpec extends ObjectBehavior
                 ]
             );
         $this
-            ->resolvePimMeasure('mt')
+            ->findByUnit('mt')
             ->shouldReturn(
                 [
                     'family' => 'Length',
@@ -54,7 +54,7 @@ class MeasureResolverSpec extends ObjectBehavior
     public function it_returns_measure_from_unece_code()
     {
         $this
-            ->resolvePimMeasure('KGM')
+            ->findByUnit('KGM')
             ->shouldReturn(
                 [
                     'family' => 'Weight',
@@ -69,7 +69,7 @@ class MeasureResolverSpec extends ObjectBehavior
             ->shouldThrow(
                 new UnknownUnitException('parsec')
             )
-            ->during('resolvePimMeasure', ['parsec']);
+            ->during('findByUnit', ['parsec']);
     }
 
     public function it_throws_an_exception_for_unresolvable_unit()
@@ -79,6 +79,6 @@ class MeasureResolverSpec extends ObjectBehavior
             ->shouldThrow(
                 new UnresolvableUnitException($message)
             )
-            ->during('resolvePimMeasure', ['m']);
+            ->during('findByUnit', ['m']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pim\Bundle\ExtendedMeasureBundle\Resolver;
+namespace Pim\Bundle\ExtendedMeasureBundle\Repository;
 
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
@@ -10,15 +10,8 @@ use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
  *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
-class MeasureResolver implements MeasureResolverInterface
+class MeasureRepository implements MeasureRepositoryInterface
 {
-    /**
-     * Akeneo PIM merged measures configurations
-     *
-     * @var array
-     */
-    private $pimConfig;
-
     /**
      * @var array
      */
@@ -41,14 +34,13 @@ class MeasureResolver implements MeasureResolverInterface
      */
     public function __construct(array $pimConfig)
     {
-        $this->pimConfig = $pimConfig;
         $this->buildResolvableUnits($pimConfig['measures_config']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function resolvePimMeasure($unit)
+    public function findByUnit($unit)
     {
         if (array_key_exists($unit, $this->unresolvableMeasures)) {
             $message = sprintf('Unable to resolve the unit "%s" in', $unit);

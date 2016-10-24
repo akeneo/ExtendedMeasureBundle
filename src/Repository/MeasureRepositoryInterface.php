@@ -1,6 +1,6 @@
 <?php
 
-namespace Pim\Bundle\ExtendedMeasureBundle\Resolver;
+namespace Pim\Bundle\ExtendedMeasureBundle\Repository;
 
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
@@ -10,7 +10,7 @@ use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
  *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
-interface MeasureResolverInterface
+interface MeasureRepositoryInterface
 {
     /**
      * Retrieve a PIM measure from a unit (Hz, Km, ...)
@@ -22,5 +22,5 @@ interface MeasureResolverInterface
      * @throws UnresolvableUnitException
      * @throws UnknownUnitException
      */
-    public function resolvePimMeasure($unit);
+    public function findByUnit($unit);
 }
