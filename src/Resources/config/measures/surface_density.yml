@@ -1,6 +1,6 @@
 measures_config:
     SurfaceDensity:
-        standard: KG_PER_SQUARE_METER
+        standard: KILOGRAM_PER_SQUARE_METER
         units:
             KILOGRAM_PER_SQUARE_METER:
                 unece_code: '28'

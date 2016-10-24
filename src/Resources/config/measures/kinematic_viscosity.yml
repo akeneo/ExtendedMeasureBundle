@@ -10,3 +10,6 @@ measures_config:
                 unece_code: 'C17'
                 convert: [{'div': 1000000}]
                 symbol: 'mm²/s'
+            SQUARE_METER_PER_HOUR:
+                convert: [{'mul': 3600}]
+                symbol: 'm²/h'
