@@ -46,7 +46,7 @@ measures_config:
 
             MILLIGRAM_PER_SECOND:
                 unece_code: 'F34'
-                convert: [{'div': 1000000}}]
+                convert: [{'div': 1000000}]
                 symbol: 'mg/s'
                 name: 'milligram per second'
             MILLIGRAM_PER_MINUTE:

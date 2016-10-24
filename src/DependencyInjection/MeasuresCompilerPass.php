@@ -41,12 +41,13 @@ class MeasuresCompilerPass implements CompilerPassInterface
             $measuresConfig = $this->processFile($file, $measuresConfig);
         }
 
+        $preset = $container->getParameter('akeneo_measure.measures_config');
+        $measuresConfig = array_replace_recursive($preset, $measuresConfig);
+
         $processor = new Processor();
         $configTree = new MeasuresConfiguration();
         $measuresConfig['measures_config'] = $processor->processConfiguration($configTree, $measuresConfig);
 
-        $preset = $container->getParameter('akeneo_measure.measures_config');
-        $measuresConfig = array_replace_recursive($preset, $measuresConfig);
         $container->setParameter('akeneo_measure.measures_config', $measuresConfig);
     }
 
