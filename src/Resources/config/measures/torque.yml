@@ -6,6 +6,7 @@ measures_config:
                 unece_code: 'NU'
                 convert: [{'mul': 1}]
                 symbol: 'N·m'
+                alternative_units: ['Nm']
             MEGANEWTON_METER:
                 unece_code: 'B74'
                 convert: [{'mul': 1000000}]

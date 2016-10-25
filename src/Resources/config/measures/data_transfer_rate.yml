@@ -72,6 +72,10 @@ measures_config:
                 convert: [{'mul': 8000000000}]
                 symbol: 'GByte/s'
                 name: 'gigabyte per second'
+            GIGABYTE_PER_MINUTE:
+                convert: [{'mul': 8000000000},{'div': 60}]
+                symbol: 'GByte/min'
+                name: 'gigabyte per minute'
 
             MEGABYTE_PER_HOUR:
                 convert: [{'mul': 8000000}, {'mul': 3600}]

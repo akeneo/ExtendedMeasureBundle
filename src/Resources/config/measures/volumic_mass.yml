@@ -14,6 +14,10 @@ measures_config:
                 unece_code: '23'
                 convert: [{'mul': 1000}]
                 symbol: 'g/cm³'
+            GRAM_PER_CUBIC_METER:
+                unece_code: 'A93'
+                convert: [{'div': 1000}]
+                symbol: 'g/m³'
             KILOGRAM_PER_CUBIC_METER:
                 unece_code: 'KMQ'
                 convert: [{'mul': 1}]
