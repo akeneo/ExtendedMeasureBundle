@@ -1,5 +1,5 @@
 measures_config:
-    Illuminance:
+    Luminance:
         standard: CANDELA_PER_SQUARE_METER
         units:
             CANDELA_PER_SQUARE_METER:

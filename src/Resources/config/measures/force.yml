@@ -10,3 +10,6 @@ measures_config:
                 convert: [{'mul': 1000}]
                 symbol: 'kN'
                 name: 'kilo-newton'
+            DECANEWTON:
+                convert: [{'mul': 10}]
+                symbol: 'daN'

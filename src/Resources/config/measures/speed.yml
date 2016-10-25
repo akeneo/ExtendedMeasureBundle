@@ -60,4 +60,4 @@ measures_config:
                 symbol: 'inch/s'
             INCH_PER_MINUTE:
                 convert: [{'mul': 0.0254}, {'div': 60}]
-                symbol: 'inch/s'
+                symbol: 'inch/min'
