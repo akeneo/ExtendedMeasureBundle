@@ -6,7 +6,7 @@ use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
 use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 
 /**
- * Resolve a measure to a a PIM unit by its symbol or unit.
+ * Resolve a measure to a a PIM unit by its symbol.
  *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
@@ -82,7 +82,7 @@ class MeasureRepository implements MeasureRepositoryInterface
      *          convert: [{'mul': 0.000000001}]
      *          symbol: 'mm³'
      *          name: 'cubic millimeter'
-     *          alternative_units: ['foo', 'bar']
+     *          alternative_symbols: ['foo', 'bar']
      *
      * @param array  $unitConfig
      * @param string $pimUnitName
@@ -94,8 +94,8 @@ class MeasureRepository implements MeasureRepositoryInterface
         if (isset($unitConfig['unece_code'])) {
             $this->resolveUnit($unitConfig['unece_code'], $pimUnitName, $pimFamily);
         }
-        if (isset($unitConfig['alternative_units'])) {
-            foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
+        if (isset($unitConfig['alternative_symbols'])) {
+            foreach ($unitConfig['alternative_symbols'] as $alternativeUnit) {
                 // process UTF8 entities. Using json_decode is a bit hacky, but it is the simplest way
                 if (strpos($alternativeUnit, '\u') === 0) {
                     $alternativeUnit = json_decode('"' . $alternativeUnit . '"');

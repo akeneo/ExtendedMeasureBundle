@@ -6,4 +6,4 @@ measures_config:
                 convert: [{'mul': 1}]
                 symbol: 'dpt'
                 name: 'diopter'
-                alternative_units: ['dioptre']
+                alternative_symbols: ['dioptre']

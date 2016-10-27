@@ -78,7 +78,7 @@ measures_config:
                 convert: [{'div': 1000000000000}]
                 symbol: 'µm²'
                 name: 'square micrometre'
-                alternative_units: ['square micron']
+                alternative_symbols: ['square micron']
             DECARE:
                 unece_code: 'DAA'
                 convert: [{'mul': 1000}]

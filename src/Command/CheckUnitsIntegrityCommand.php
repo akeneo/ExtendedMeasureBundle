@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Check all yaml measures definition files
+ * Check all yaml units definition files
  *
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
  */
@@ -61,8 +61,8 @@ class CheckUnitsIntegrityCommand extends ContainerAwareCommand
                 if (isset($unitConfig['unece_code'])) {
                     $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['unece_code'], $familyUnits);
                 }
-                if (isset($unitConfig['alternative_units'])) {
-                    foreach ($unitConfig['alternative_units'] as $alternativeUnit) {
+                if (isset($unitConfig['alternative_symbols'])) {
+                    foreach ($unitConfig['alternative_symbols'] as $alternativeUnit) {
                         $familyUnits = $this->checkFamilyUnitUnicity($alternativeUnit, $familyUnits);
                     }
                 }

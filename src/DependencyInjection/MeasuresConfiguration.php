@@ -29,7 +29,7 @@ class MeasuresConfiguration extends Configuration
                     ->scalarNode('symbol')->isRequired()->end()
                     ->scalarNode('name')->end()
                     ->scalarNode('unece_code')->end()
-                    ->arrayNode('alternative_units')
+                    ->arrayNode('alternative_symbols')
                         ->prototype('scalar')->end()
                     ->end()
                 ->end()

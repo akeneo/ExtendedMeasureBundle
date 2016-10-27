@@ -10,4 +10,4 @@ measures_config:
                 convert: [{'mul': 9.8}]
                 symbol: 'g'
                 name: 'g-force'
-                alternative_units: ['G']
+                alternative_symbols: ['G']

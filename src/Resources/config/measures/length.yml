@@ -61,7 +61,7 @@ measures_config:
                 convert: [{'mul': 20.1168}]
                 symbol: ch
                 name: "chain"
-                alternative_units: ["Gunter's chain"]
+                alternative_symbols: ["Gunter's chain"]
             FURLONG:
                 unece_code: 'M50'
                 convert: [{'mul': 201.168}]
@@ -72,14 +72,14 @@ measures_config:
                 convert: [{'mul': 1609.344}]
                 symbol: 'mi'
                 name: 'Mile'
-                alternative_units: ['mile']
+                alternative_symbols: ['mile']
             # added
             MICROMETER:
                 unece_code: '4H'
                 convert: [{'mul': 0.000001}]
                 symbol: 'µm'
                 name: 'micrometer'
-                alternative_units: ['micron']
+                alternative_symbols: ['micron']
             NANOMETER:
                 unece_code: 'C45'
                 convert: [{'mul': 0.000000001}]

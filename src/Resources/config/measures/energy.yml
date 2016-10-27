@@ -75,7 +75,7 @@ measures_config:
                 convert: [{'mul': 3600000}]
                 symbol: 'kW·h'
                 name: 'kilowatt hour'
-                alternative_units: ['kWh']
+                alternative_symbols: ['kWh']
             GIGAWATT_HOUR:
                 unece_code: 'GWH'
                 convert: [{'mul': 3600000000000}]

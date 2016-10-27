@@ -35,20 +35,20 @@ measures_config:
 ```
 
 - `measures_config`: the symfony extension configuration key.
-- `Acceleration`: the measure family. In our case, we define measures for physical acceleration.
-- `standard`: this key defines which measure will be used as the base measure for this family.
-- `units`: the key to start the measures hashtable.
-- `METER_PER_SQUARE_SECOND`: a readable name for the measure.
+- `Acceleration`: the measure family. In our case, we define units for physical acceleration.
+- `standard`: this key defines which unit will be used as the base unit for this family.
+- `units`: allunits of the family.
+- `METER_PER_SQUARE_SECOND`: a readable name for the unit.
 - `convert`: array of operations to convert this unit to the standard unit.
 - `symbol`: the usual symbol of the measure.
-- `name`: readable nam useable as a label.
+- `name`: readable name useable as a label.
 - `unece_code`: code of the measure in the UNECE convention.
-- `alternative_units`: other symbols or names we could find for this same measure.
+- `alternative_symbols`: other symbols or names we could find for this same measure.
  The symbol can vary from one standard to another.
 
 ## What's new
 
-- `alternative_units`: one measure can be identified with multiple units, 
+- `alternative_symbols`: one measure can be identified with multiple symbols, 
  to reflect the differences existing between measures systems. 
  It can also be used to add diferent encoding of the same caracter like `µ` 
  which can be encoded with the 'micro' UTF8 code or the greak 'mu' UTF8 code.

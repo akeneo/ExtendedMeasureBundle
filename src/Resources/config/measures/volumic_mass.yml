@@ -26,7 +26,7 @@ measures_config:
                 unece_code: 'B35'
                 convert: [{'mul': 10}]
                 symbol: 'kg/l'
-                alternative_units: ['kg/L']
+                alternative_symbols: ['kg/L']
             TON_PER_CUBIC_METER:
                 unece_code: 'D41'
                 convert: [{'mul': 1000}]

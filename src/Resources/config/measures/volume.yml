@@ -47,7 +47,7 @@ measures_config:
                 convert: [{'mul': 0.00454609}, {'div': 160}]
                 symbol: 'oz'
                 name: 'fluid ounce (UK)'
-                alternative_units: ['fl oz (UK)']
+                alternative_symbols: ['fl oz (UK)']
             PINT:
                 unece_code: 'PTI'
                 convert: [{'mul': 0.00454609}, {'div': 8}]
@@ -129,7 +129,7 @@ measures_config:
                 convert: [{'mul': 0.000473176}]
                 symbol: 'pt (US)'
                 name: 'pint (US)'
-                alternative_units: ['liq pt (US)']
+                alternative_symbols: ['liq pt (US)']
             QUART:
                 unece_code: 'QTI'
                 convert: [{'mul': 0.0011365225}]
@@ -140,7 +140,7 @@ measures_config:
                 convert: [{'mul': 0.0009463529}]
                 symbol: 'qt (US)'
                 name: 'quart (US)'
-                alternative_units: ['liq qt (US)']
+                alternative_symbols: ['liq qt (US)']
             DRY_PINT:
                 unece_code: 'PTD'
                 convert: [{'mul': 0.0005506105}]

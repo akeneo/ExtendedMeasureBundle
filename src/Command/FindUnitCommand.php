@@ -36,8 +36,8 @@ class FindUnitCommand extends ContainerAwareCommand
     {
         $unit = $input->getArgument('unit');
         $this->write($output, sprintf('Search for measure <info>%s</info>', $unit));
-        $resolver = $this->getContainer()->get('pim_extended_measures.repository');
-        $measure = $resolver->findByUnit($unit);
+        $repository = $this->getContainer()->get('pim_extended_measures.repository');
+        $measure = $repository->findByUnit($unit);
         $this->write($output, sprintf('Family = <info>%s</info>', $measure['family']));
         $this->write($output, sprintf('Unit = <info>%s</info>', $measure['unit']));
     }

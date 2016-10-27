@@ -70,7 +70,7 @@ measures_config:
                 convert: [{'mul': 0.001}, {'mul': 3600'}]
                 symbol: 'dm³/h'
                 name: 'cubi decimeter per hour'
-                alternative_units: ['l/h']
+                alternative_symbols: ['l/h']
 
             LITER_PER_SECOND:
                 unece_code: 'G51'
@@ -82,7 +82,7 @@ measures_config:
                 convert: [{'mul': 0.001}, {'mul': 60'}]
                 symbol: 'l/min'
                 name: 'liter per minute'
-                alternative_units: ['dm³/min']
+                alternative_symbols: ['dm³/min']
             LITER_PER_DAY:
                 unece_code: 'LD'
                 convert: [{'mul': 0.001}, {'mul': 86400}]
