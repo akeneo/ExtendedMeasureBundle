@@ -13,7 +13,7 @@ measures_config:
                 symbol: 'kg'
                 name: 'kilo gram'
                 unece_code: 'KGM'
-                alternative_units: ['kilo']
+                alternative_symbols: ['kilo']
 
             BADMETER:
                 convert: [{'mul': 666}]

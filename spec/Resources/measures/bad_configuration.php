@@ -9,12 +9,12 @@ return [
                     'symbol'            => 'kg',
                     'name'              => 'kilogram',
                     'unece_code'        => 'KGM',
-                    'alternative_units' => ['kilo', 'kilogramme']
+                    'alternative_symbols' => ['kilo', 'kilogramme']
                 ],
                 'WRONGMETER' => [
                     'symbol'            => 'm',
                     'convert'           => [['mul' => 666]],
-                    'alternative_units' => ['kg']
+                    'alternative_symbols' => ['kg']
                 ]
             ]
         ]
