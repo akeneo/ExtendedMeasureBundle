@@ -23,6 +23,11 @@ return [
                     'symbol'            => 'm',
                     'alternative_symbols' => [],
                 ],
+                'DUPLICATE_UNIT' => [
+                    'convert'           => [['mul' => 666]],
+                    'symbol'            => 'bar',
+                    'alternative_symbols' => [],
+                ],
             ],
         ],
         'Length' => [
@@ -36,6 +41,11 @@ return [
                 'KILOMETER' => [
                     'convert'           => [['mul' => 1000]],
                     'symbol'            => 'km',
+                    'alternative_symbols' => [],
+                ],
+                'DUPLICATE_UNIT' => [
+                    'convert'           => [['mul' => 666]],
+                    'symbol'            => 'foo',
                     'alternative_symbols' => [],
                 ],
             ],

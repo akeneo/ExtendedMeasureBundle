@@ -19,3 +19,7 @@ measures_config:
                 convert: [{'mul': 666}]
                 symbol: 'm'
 
+            DUPLICATE_UNIT:
+                convert: [{'mul': 666}]
+                symbol: 'bar'
+

@@ -14,7 +14,7 @@ class MeasureRepositorySpec extends ObjectBehavior
 {
     public function let()
     {
-        $config = require (__DIR__ . '/../Resources/measures/merged_configuration.php');
+        $config = require(__DIR__ . '/../Resources/measures/merged_configuration.php');
         $this->beConstructedWith($config);
     }
 
@@ -26,27 +26,58 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_returns_measure_from_a_unit()
     {
         $this
-            ->findByUnit('kg')
+            ->findByUnit('KILOGRAM')
             ->shouldReturn(
                 [
-                    'family' => 'Weight',
-                    'unit'   => 'KILOGRAM'
+                    'convert'             => [['mul' => 1000]],
+                    'symbol'              => 'kg',
+                    'name'                => 'kilo gram',
+                    'unece_code'          => 'KGM',
+                    'alternative_symbols' => ['kilo'],
+                    'family'              => 'Weight',
+                    'unit'                => 'KILOGRAM',
+                ]
+            );
+    }
+
+
+    public function it_returns_measure_from_a_symbol()
+    {
+        $this
+            ->findBySymbol('kg')
+            ->shouldReturn(
+                [
+                    'convert'             => [['mul' => 1000]],
+                    'symbol'              => 'kg',
+                    'name'                => 'kilo gram',
+                    'unece_code'          => 'KGM',
+                    'alternative_symbols' => ['kilo'],
+                    'family'              => 'Weight',
+                    'unit'                => 'KILOGRAM',
                 ]
             );
         $this
-            ->findByUnit('kilo')
+            ->findBySymbol('kilo')
             ->shouldReturn(
                 [
-                    'family' => 'Weight',
-                    'unit'   => 'KILOGRAM'
+                    'convert'             => [['mul' => 1000]],
+                    'symbol'              => 'kg',
+                    'name'                => 'kilo gram',
+                    'unece_code'          => 'KGM',
+                    'alternative_symbols' => ['kilo'],
+                    'family'              => 'Weight',
+                    'unit'                => 'KILOGRAM',
                 ]
             );
         $this
-            ->findByUnit('mt')
+            ->findBySymbol('mt')
             ->shouldReturn(
                 [
-                    'family' => 'Length',
-                    'unit'   => 'METER'
+                    'convert'             => [['mul' => 1]],
+                    'symbol'              => 'm',
+                    'alternative_symbols' => ['mt'],
+                    'family'              => 'Length',
+                    'unit'                => 'METER',
                 ]
             );
     }
@@ -54,11 +85,16 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_returns_measure_from_unece_code()
     {
         $this
-            ->findByUnit('KGM')
+            ->findBySymbol('KGM')
             ->shouldReturn(
                 [
-                    'family' => 'Weight',
-                    'unit'   => 'KILOGRAM'
+                    'convert'             => [['mul' => 1000]],
+                    'symbol'              => 'kg',
+                    'name'                => 'kilo gram',
+                    'unece_code'          => 'KGM',
+                    'alternative_symbols' => ['kilo'],
+                    'family'              => 'Weight',
+                    'unit'                => 'KILOGRAM',
                 ]
             );
     }
@@ -67,18 +103,67 @@ class MeasureRepositorySpec extends ObjectBehavior
     {
         $this
             ->shouldThrow(
+                new UnknownUnitException('FOO_UNIT')
+            )
+            ->during('findByUnit', ['FOO_UNIT']);
+    }
+
+    public function it_throws_an_exception_for_unknown_symbol()
+    {
+        $this
+            ->shouldThrow(
                 new UnknownUnitException('parsec')
             )
-            ->during('findByUnit', ['parsec']);
+            ->during('findBySymbol', ['parsec']);
+    }
+
+    public function it_finds_unit_in_a_family()
+    {
+        $this
+            ->findByUnit('DUPLICATE_UNIT', 'Length')
+            ->shouldReturn(
+                [
+                    'convert'             => [['mul' => 666]],
+                    'symbol'              => 'foo',
+                    'alternative_symbols' => [],
+                    'family'              => 'Length',
+                    'unit'                => 'DUPLICATE_UNIT',
+                ]
+            );
+    }
+
+    public function it_finds_symbol_in_a_family()
+    {
+        $this
+            ->findBySymbol('m', 'Length')
+            ->shouldReturn(
+                [
+                    'convert'             => [['mul' => 1]],
+                    'symbol'              => 'm',
+                    'alternative_symbols' => ['mt'],
+                    'family'              => 'Length',
+                    'unit'                => 'METER',
+                ]
+            );
     }
 
     public function it_throws_an_exception_for_unresolvable_unit()
     {
-        $message = 'Unable to resolve the unit "m" in [family: Weight, measure: BADMETER] [family: Length, measure: METER]';
+        $message = 'Unable to resolve the unit "DUPLICATE_UNIT" in [family: Weight, unit: DUPLICATE_UNIT] [family: Length, unit: DUPLICATE_UNIT]';
         $this
             ->shouldThrow(
                 new UnresolvableUnitException($message)
             )
-            ->during('findByUnit', ['m']);
+            ->during('findByUnit', ['DUPLICATE_UNIT']);
+    }
+
+    public function it_throws_an_exception_for_unresolvable_symbol()
+    {
+        $message = 'Unable to resolve the unit "m" in [family: Weight, unit: BADMETER] [family: Length, unit: METER]';
+        $this
+            ->shouldThrow(
+                new UnresolvableUnitException($message)
+            )
+            ->during('findBySymbol', ['m']);
     }
 }

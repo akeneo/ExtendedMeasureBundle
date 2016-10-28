@@ -5,6 +5,11 @@ measures_config:
             METER:
                 convert: [{'mul': 1}]
                 symbol: 'm'
+
             KILOMETER:
                 convert: [{'mul': 1000}]
                 symbol: 'km'
+
+            DUPLICATE_UNIT:
+                convert: [{'mul': 666}]
+                symbol: 'foo'

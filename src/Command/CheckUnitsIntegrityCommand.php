@@ -2,7 +2,8 @@
 
 namespace Pim\Bundle\ExtendedMeasureBundle\Command;
 
-use Pim\Bundle\ExtendedMeasureBundle\Exception\DuplicateUnitException;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\UnknownUnitException;
+use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,43 +50,27 @@ class CheckUnitsIntegrityCommand extends ContainerAwareCommand
     /**
      * @param array  $unitsConfig
      * @param string $familyName
-     *
-     * @throws DuplicateUnitException
      */
     protected function validateFamilyUnits(array $unitsConfig, $familyName)
     {
-        $familyUnits = [];
+        $repository = $this->getContainer()->get('pim_extended_measures.repository');
         foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
             try {
-                $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['symbol'], $familyUnits);
+                $repository->findBySymbol($unitConfig['symbol']);
                 if (isset($unitConfig['unece_code'])) {
-                    $familyUnits = $this->checkFamilyUnitUnicity($unitConfig['unece_code'], $familyUnits);
+                    $repository->findBySymbol($unitConfig['unece_code']);
                 }
                 if (isset($unitConfig['alternative_symbols'])) {
-                    foreach ($unitConfig['alternative_symbols'] as $alternativeUnit) {
-                        $familyUnits = $this->checkFamilyUnitUnicity($alternativeUnit, $familyUnits);
+                    foreach ($unitConfig['alternative_symbols'] as $symbol) {
+                        $repository->findBySymbol($symbol);
                     }
                 }
-            } catch (DuplicateUnitException $e) {
+            } catch (UnresolvableUnitException $e) {
+                $this->errors[] = sprintf('%s -> %s: %s', $familyName, $akeneoUnit, $e->getMessage());
+            } catch (UnknownUnitException $e) {
                 $this->errors[] = sprintf('%s -> %s: %s', $familyName, $akeneoUnit, $e->getMessage());
             }
         }
-    }
-
-    /**
-     * @param string   $unit
-     * @param string[] $existingUnits
-     *
-     * @return string[]
-     */
-    private function checkFamilyUnitUnicity($unit, $existingUnits)
-    {
-        if (in_array($unit, $existingUnits)) {
-            throw new DuplicateUnitException('Unit already exists: ' . $unit);
-        }
-        $existingUnits[] = $unit;
-
-        return $existingUnits;
     }
 
     /**

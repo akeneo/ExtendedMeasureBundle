@@ -13,70 +13,108 @@ use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 class MeasureRepository implements MeasureRepositoryInterface
 {
     /**
-     * @var array
-     */
-    private $unitNames;
-
-    /**
-     * @var array
-     */
-    private $unitFamilies;
-
-    /**
-     * Unresolvable measures because of a unit in more than one family
+     * Dictionnary indexed by units
      *
      * @var array
      */
-    private $unresolvableMeasures;
+    private $unitsDictionnary = [];
+
+    /**
+     * Dictionnary indexed by symbols
+     *
+     * @var array
+     */
+    private $symbolsDictionnay = [];
+
+    /** @var array */
+    private $pimConfig;
 
     /**
      * @param array $pimConfig
      */
     public function __construct(array $pimConfig)
     {
-        $this->buildResolvableUnits($pimConfig['measures_config']);
+        $this->pimConfig = $pimConfig;
+        $this->buildDictionnaries($pimConfig['measures_config']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findByUnit($unit)
+    public function findBySymbol($symbol, $family = null)
     {
-        if (array_key_exists($unit, $this->unresolvableMeasures)) {
-            $message = sprintf('Unable to resolve the unit "%s" in', $unit);
-            foreach ($this->unresolvableMeasures[$unit] as $unresolvables) {
-                $message .= vsprintf(' [family: %s, measure: %s]', $unresolvables);
+        return $this->findInDictionnary($this->symbolsDictionnay, $symbol, $family);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByUnit($unit, $family = null)
+    {
+        return $this->findInDictionnary($this->unitsDictionnary, $unit, $family);
+    }
+
+    /**
+     * Find a unit in internal dictionnaries. We can add a filter on family
+     *
+     * @param array       $dictionnary
+     * @param string      $search
+     * @param string|null $family
+     *
+     * @return mixed
+     */
+    private function findInDictionnary(array $dictionnary, $search, $family)
+    {
+        if (!array_key_exists($search, $dictionnary)) {
+            throw new UnknownUnitException($search);
+        }
+        if (count($dictionnary[$search]) === 1) {
+            return $dictionnary[$search][0];
+        }
+        $message = sprintf('Unable to resolve the unit "%s" in', $search);
+        if (null === $family) {
+            foreach ($dictionnary[$search] as $unresolvables) {
+                $message .= sprintf(' [family: %s, unit: %s]', $unresolvables['family'], $unresolvables['unit']);
             }
             throw new UnresolvableUnitException($message);
         }
-        if (!array_key_exists($unit, $this->unitNames)) {
-            throw new UnknownUnitException($unit);
+
+        $foundConfig = null;
+        $foundCount = 0;
+        foreach ($dictionnary[$search] as $unitConfig) {
+            $message .= sprintf(' [family: %s, unit: %s]', $unitConfig['family'], $unitConfig['unit']);
+            if ($unitConfig['family'] === $family) {
+                $foundConfig = $unitConfig;
+                ++$foundCount;
+            }
         }
 
-        return [
-            'family' => $this->unitFamilies[$unit],
-            'unit'   => $this->unitNames[$unit],
-        ];
+        if ($foundCount > 1) {
+            throw new UnresolvableUnitException($message);
+        }
+
+        return $foundConfig;
     }
 
     /**
-     * Build a reverse config to find a measure by unit
+     * Build units and symbls dictionnaries to optimize search
      *
      * @param array $measuresConfig
      */
-    private function buildResolvableUnits($measuresConfig)
+    private function buildDictionnaries($measuresConfig)
     {
-        $this->unitNames = [];
-        $this->unresolvableMeasures = [];
         foreach ($measuresConfig as $pimFamily => $units) {
             foreach ($units['units'] as $pimUnit => $unitConfig) {
-                $this->parseUnit($unitConfig, $pimUnit, $pimFamily);
+                $unitConfig['family'] = $pimFamily;
+                $unitConfig['unit'] = $pimUnit;
+                $this->unitsDictionnary[$pimUnit][] = $unitConfig;
+                $this->resolveUnit($unitConfig);
             }
         }
     }
 
     /**
-     * Parse one measure definition:
+     * Resolve one unit definition with its keys:
      *      CUBIC_MILLIMETER:
      *          unece_code: 'MMQ'
      *          convert: [{'mul': 0.000000001}]
@@ -84,48 +122,22 @@ class MeasureRepository implements MeasureRepositoryInterface
      *          name: 'cubic millimeter'
      *          alternative_symbols: ['foo', 'bar']
      *
-     * @param array  $unitConfig
-     * @param string $pimUnitName
-     * @param string $pimFamily
+     * @param array $unitConfig
      */
-    private function parseUnit(array $unitConfig, $pimUnitName, $pimFamily)
+    private function resolveUnit(array $unitConfig)
     {
-        $this->resolveUnit($unitConfig['symbol'], $pimUnitName, $pimFamily);
+        $this->symbolsDictionnay[$unitConfig['symbol']][] = $unitConfig;
         if (isset($unitConfig['unece_code'])) {
-            $this->resolveUnit($unitConfig['unece_code'], $pimUnitName, $pimFamily);
+            $this->symbolsDictionnay[$unitConfig['unece_code']][] = $unitConfig;
         }
         if (isset($unitConfig['alternative_symbols'])) {
-            foreach ($unitConfig['alternative_symbols'] as $alternativeUnit) {
+            foreach ($unitConfig['alternative_symbols'] as $alternativeSymbol) {
                 // process UTF8 entities. Using json_decode is a bit hacky, but it is the simplest way
-                if (strpos($alternativeUnit, '\u') === 0) {
-                    $alternativeUnit = json_decode('"' . $alternativeUnit . '"');
+                if (strpos($alternativeSymbol, '\u') === 0) {
+                    $alternativeSymbol = json_decode('"' . $alternativeSymbol . '"');
                 }
-                $this->resolveUnit($alternativeUnit, $pimUnitName, $pimFamily);
+                $this->symbolsDictionnay[$alternativeSymbol][] = $unitConfig;
             }
-        }
-    }
-
-    /**
-     * Identify unresolvable units that are in more than one family.
-     *
-     * @param string $unit
-     * @param string $pimUnitName
-     * @param string $pimFamily
-     */
-    private function resolveUnit($unit, $pimUnitName, $pimFamily)
-    {
-        if (isset($this->unresolvableMeasures[$unit])) {
-            $this->unresolvableMeasures[$unit][] = [$pimFamily, $pimUnitName];
-        } elseif (isset($this->unitFamilies[$unit])) {
-            $this->unresolvableMeasures[$unit] = [
-                [$this->unitFamilies[$unit], $this->unitNames[$unit]],
-                [$pimFamily, $pimUnitName],
-            ];
-            unset($this->unitNames[$unit]);
-            unset($this->unitFamilies[$unit]);
-        } else {
-            $this->unitNames[$unit] = $pimUnitName;
-            $this->unitFamilies[$unit] = $pimFamily;
         }
     }
 }

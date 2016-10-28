@@ -3,8 +3,8 @@
 namespace Pim\Bundle\ExtendedMeasureBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -22,10 +22,20 @@ class FindUnitCommand extends ContainerAwareCommand
         $this
             ->setName('pim:measures:find')
             ->setDescription('Find a PIM unit.')
-            ->addArgument(
+            ->addOption(
+                'symbol',
+                null,
+                InputOption::VALUE_OPTIONAL
+            )
+            ->addOption(
                 'unit',
-                InputArgument::REQUIRED,
-                'The measure or unit to search for.'
+                null,
+                InputOption::VALUE_OPTIONAL
+            )
+            ->addOption(
+                'family',
+                null,
+                InputOption::VALUE_OPTIONAL
             );
     }
 
@@ -34,10 +44,22 @@ class FindUnitCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $unit = $input->getArgument('unit');
-        $this->write($output, sprintf('Search for measure <info>%s</info>', $unit));
+        $symbol = $input->getOption('symbol');
+        $unit = $input->getOption('unit');
+        $family = $input->getOption('family');
+
         $repository = $this->getContainer()->get('pim_extended_measures.repository');
-        $measure = $repository->findByUnit($unit);
+
+        if (null !== $unit) {
+            $this->write($output, sprintf('Search for unit <info>%s</info>', $unit));
+            $measure = $repository->findByUnit($unit, $family);
+        } elseif (null !== $symbol) {
+            $this->write($output, sprintf('Search for symbol <info>%s</info>', $symbol));
+            $measure = $repository->findBySymbol($symbol, $family);
+        } else {
+            throw new \InvalidArgumentException('You must search a symbol or a family.');
+        }
+
         $this->write($output, sprintf('Family = <info>%s</info>', $measure['family']));
         $this->write($output, sprintf('Unit = <info>%s</info>', $measure['unit']));
     }
