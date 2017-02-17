@@ -13,67 +13,50 @@ use Pim\Bundle\ExtendedMeasureBundle\Exception\UnresolvableUnitException;
 class MeasureRepository implements MeasureRepositoryInterface
 {
     /**
-     * Dictionnary indexed by units
+     * Dictionnary indexed by symbols or units
      *
      * @var array
      */
-    private $unitsDictionnary = [];
-
-    /**
-     * Dictionnary indexed by symbols
-     *
-     * @var array
-     */
-    private $symbolsDictionnay = [];
-
-    /** @var array */
-    private $pimConfig;
+    protected $dictionnary = [];
 
     /**
      * @param array $pimConfig
      */
     public function __construct(array $pimConfig)
     {
-        $this->pimConfig = $pimConfig;
         $this->buildDictionnaries($pimConfig['measures_config']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findBySymbol($symbol, $family = null)
+    public function find($unit, $family = null)
     {
-        return $this->findInDictionnary($this->symbolsDictionnay, $symbol, $family);
+        return $this->findInDictionnary($unit, $family);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function findByUnit($unit, $family = null)
-    {
-        return $this->findInDictionnary($this->unitsDictionnary, $unit, $family);
-    }
-
-    /**
-     * Find a unit in internal dictionnaries. We can add a filter on family
+     * Find a symbol in internal dictionnary. We can add a filter on family
      *
-     * @param array       $dictionnary
      * @param string      $search
      * @param string|null $family
      *
      * @return mixed
      */
-    private function findInDictionnary(array $dictionnary, $search, $family)
+    protected function findInDictionnary($search, $family)
     {
-        if (!array_key_exists($search, $dictionnary)) {
+        if (!isset($this->dictionnary[$search])) {
             throw new UnknownUnitException($search);
         }
-        if (count($dictionnary[$search]) === 1) {
-            return $dictionnary[$search][0];
+
+        if (count($this->dictionnary[$search]) === 1) {
+            return $this->dictionnary[$search][0];
         }
+
+        // Resolve problem finding a unit
         $message = sprintf('Unable to resolve the unit "%s" in', $search);
         if (null === $family) {
-            foreach ($dictionnary[$search] as $unresolvables) {
+            foreach ($this->dictionnary[$search] as $unresolvables) {
                 $message .= sprintf(' [family: %s, unit: %s]', $unresolvables['family'], $unresolvables['unit']);
             }
             throw new UnresolvableUnitException($message);
@@ -81,7 +64,7 @@ class MeasureRepository implements MeasureRepositoryInterface
 
         $foundConfig = null;
         $foundCount = 0;
-        foreach ($dictionnary[$search] as $unitConfig) {
+        foreach ($this->dictionnary[$search] as $unitConfig) {
             $message .= sprintf(' [family: %s, unit: %s]', $unitConfig['family'], $unitConfig['unit']);
             if ($unitConfig['family'] === $family) {
                 $foundConfig = $unitConfig;
@@ -101,20 +84,20 @@ class MeasureRepository implements MeasureRepositoryInterface
      *
      * @param array $measuresConfig
      */
-    private function buildDictionnaries($measuresConfig)
+    protected function buildDictionnaries($measuresConfig)
     {
         foreach ($measuresConfig as $pimFamily => $units) {
             foreach ($units['units'] as $pimUnit => $unitConfig) {
                 $unitConfig['family'] = $pimFamily;
                 $unitConfig['unit'] = $pimUnit;
-                $this->unitsDictionnary[$pimUnit][] = $unitConfig;
-                $this->resolveUnit($unitConfig);
+                $this->dictionnary[$pimUnit][] = $unitConfig;
+                $this->buildUnit($unitConfig);
             }
         }
     }
 
     /**
-     * Resolve one unit definition with its keys:
+     * Builds one unit definition with its keys:
      *      CUBIC_MILLIMETER:
      *          unece_code: 'MMQ'
      *          convert: [{'mul': 0.000000001}]
@@ -124,19 +107,21 @@ class MeasureRepository implements MeasureRepositoryInterface
      *
      * @param array $unitConfig
      */
-    private function resolveUnit(array $unitConfig)
+    protected function buildUnit(array $unitConfig)
     {
-        $this->symbolsDictionnay[$unitConfig['symbol']][] = $unitConfig;
+        $this->dictionnary[$unitConfig['symbol']][] = $unitConfig;
+
         if (isset($unitConfig['unece_code'])) {
-            $this->symbolsDictionnay[$unitConfig['unece_code']][] = $unitConfig;
+            $this->dictionnary[$unitConfig['unece_code']][] = $unitConfig;
         }
+
         if (isset($unitConfig['alternative_symbols'])) {
             foreach ($unitConfig['alternative_symbols'] as $alternativeSymbol) {
                 // process UTF8 entities. Using json_decode is a bit hacky, but it is the simplest way
                 if (strpos($alternativeSymbol, '\u') === 0) {
                     $alternativeSymbol = json_decode('"' . $alternativeSymbol . '"');
                 }
-                $this->symbolsDictionnay[$alternativeSymbol][] = $unitConfig;
+                $this->dictionnary[$alternativeSymbol][] = $unitConfig;
             }
         }
     }

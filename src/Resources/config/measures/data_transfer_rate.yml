@@ -12,6 +12,7 @@ measures_config:
                 convert: [{'mul': 1000}]
                 symbol: 'kbit/s'
                 name: 'kilobit per second'
+                alternative_symbols: ['kBit/s']
             MEGABIT_PER_SECOND:
                 unece_code: 'E20'
                 convert: [{'mul': 1000000}]
@@ -63,11 +64,13 @@ measures_config:
                 convert: [{'mul': 8000}]
                 symbol: 'kbyte/s'
                 name: 'kilobyte per second'
+                alternative_symbols: ['kBps']
             MEGABYTE_PER_SECOND:
                 unece_code: 'P95'
                 convert: [{'mul': 8000000}]
                 symbol: 'Mbyte/s'
                 name: 'megabyte per second'
+                alternative_symbols: ['MBps', 'Mbps']
             GIGABYTE_PER_SECOND:
                 convert: [{'mul': 8000000000}]
                 symbol: 'GByte/s'

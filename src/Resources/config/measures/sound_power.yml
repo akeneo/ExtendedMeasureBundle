@@ -7,6 +7,7 @@ measures_config:
                 convert: [{'mul': 1}]
                 symbol: 'dB'
                 name: 'decibel'
+                alternative_symbols: ['dBA', 'dB(A)', 'db(A)']
             NEPER:
                 unece_code: 'C50'
                 convert: [{'mul': 8.6858896381}]

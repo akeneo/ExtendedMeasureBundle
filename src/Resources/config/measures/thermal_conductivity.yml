@@ -6,3 +6,4 @@ measures_config:
                 unece_code: 'D53'
                 convert: [{'mul': 1}]
                 symbol: 'W/(m·K)'
+                alternative_symbols: ['W/K', 'W/mK']

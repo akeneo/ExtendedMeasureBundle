@@ -6,21 +6,25 @@ measures_config:
                 convert: [{'mul': 0.001}]
                 symbol: 'mΩ'
                 name: 'milliohm'
+                alternative_symbols: ['mOhm']
             OHM:
                 unece_code: 'OHM'
                 convert: [{'mul': 1}]
                 symbol: 'Ω'
                 name: 'ohm'
+                alternative_symbols: ['Ohm']
             KILOHM:
                 unece_code: 'B49'
                 convert: [{'mul': 1000}]
                 symbol: 'kΩ'
                 name: 'kiloomh'
+                alternative_symbols: ['kOhm']
             MEGOHM:
                 unece_code: 'B75'
                 convert: [{'mul': 1000000}]
                 symbol: 'MΩ'
                 name: 'megaohm'
+                alternative_symbols: ['Mohm']
             # Added
             GIGAOHM:
                 unece_code: 'A87'

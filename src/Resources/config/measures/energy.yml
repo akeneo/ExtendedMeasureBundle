@@ -65,6 +65,11 @@ measures_config:
                 convert: [{'mul': 3600}]
                 symbol: 'W·h'
                 name: 'watt hour'
+            WATT_MINUTE:
+                convert: [{'mul': 60}]
+                symbol: 'W·min'
+                name: 'watt minute'
+                alternative_symbols: ['W/m']
             MEGAWATT_HOUR:
                 unece_code: 'MWH'
                 convert: [{'mul': 3600000000}]
@@ -76,6 +81,11 @@ measures_config:
                 symbol: 'kW·h'
                 name: 'kilowatt hour'
                 alternative_symbols: ['kWh']
+            KILOWATT_DAY:
+                convert: [{'mul': 86400000}]
+                symbol: 'kW·d'
+                name: 'kilowatt day'
+                alternative_symbols: ['kWd', 'kW/24h']
             GIGAWATT_HOUR:
                 unece_code: 'GWH'
                 convert: [{'mul': 3600000000000}]
@@ -127,4 +137,7 @@ measures_config:
                 symbol: 'in·pdl'
                 name: 'inch poundal'
 
-
+            KILOVOLT_AMPERE_REACTIVE_HOUR:
+                convert: [{'mul': 3600000}]
+                symbol: 'kvarh'
+                name: 'kilovolt-ampere per  reactive hour'

@@ -10,22 +10,12 @@ namespace Pim\Bundle\ExtendedMeasureBundle\Repository;
 interface MeasureRepositoryInterface
 {
     /**
-     * Retrieve a PIM unit from a unitname (METER, KILOGRAM, ...).
-     *
-     * @param string      $unit
-     * @param string|null $family to restrict the search in one family
-     *
-     * @return array
-     */
-    public function findByUnit($unit, $family = null);
-
-    /**
-     * Retrieve a PIM unit from a symbol (Hz, Km, ...)
+     * Retrieves a PIM unit from a symbol or unit
      *
      * @param string      $symbol
      * @param string|null $family to restrict the search in one family
      *
      * @return array
      */
-    public function findBySymbol($symbol, $family = null);
+    public function find($symbol, $family = null);
 }

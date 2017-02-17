@@ -6,9 +6,11 @@ measures_config:
                 convert: [{'mul': 1000}]
                 symbol: 'mBar'
                 name: 'millibar'
+                alternative_symbols: ['mbar']
             BAR:
                 unece_code: 'BAR'
                 name: 'bar'
+                alternative_symbols: ['bar']
             PASCAL:
                 unece_code: 'PAL'
                 convert: [{'div': 100000}]

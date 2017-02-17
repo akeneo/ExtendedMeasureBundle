@@ -46,6 +46,7 @@ measures_config:
                 convert: [{'mul': 0.0254}]
                 symbol: 'in'
                 name: 'inch'
+                alternative_symbols: ['inch']
             FEET:
                 unece_code: 'FOT'
                 convert: [{'mul': 0.3048}]
