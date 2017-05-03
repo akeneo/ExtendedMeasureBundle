@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "akeneo/measure-bundle": "~0.5.0"
+        "akeneo/measure-bundle": ">=0.5.0"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "@stable",
