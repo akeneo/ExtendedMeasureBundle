@@ -52,10 +52,10 @@ class FindUnitCommand extends ContainerAwareCommand
 
         if (null !== $unit) {
             $this->write($output, sprintf('Search for unit <info>%s</info>', $unit));
-            $measure = $repository->findByUnit($unit, $family);
+            $measure = $repository->find($unit, $family);
         } elseif (null !== $symbol) {
             $this->write($output, sprintf('Search for symbol <info>%s</info>', $symbol));
-            $measure = $repository->findBySymbol($symbol, $family);
+            $measure = $repository->find($symbol, $family);
         } else {
             throw new \InvalidArgumentException('You must search a symbol or a family.');
         }
