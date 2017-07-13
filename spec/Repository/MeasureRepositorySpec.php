@@ -26,7 +26,7 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_returns_measure_from_a_unit()
     {
         $this
-            ->findByUnit('KILOGRAM')
+            ->find('KILOGRAM')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1000]],
@@ -44,7 +44,7 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_returns_measure_from_a_symbol()
     {
         $this
-            ->findBySymbol('kg')
+            ->find('kg')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1000]],
@@ -57,7 +57,7 @@ class MeasureRepositorySpec extends ObjectBehavior
                 ]
             );
         $this
-            ->findBySymbol('kilo')
+            ->find('kilo')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1000]],
@@ -70,7 +70,7 @@ class MeasureRepositorySpec extends ObjectBehavior
                 ]
             );
         $this
-            ->findBySymbol('mt')
+            ->find('mt')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1]],
@@ -85,7 +85,7 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_returns_measure_from_unece_code()
     {
         $this
-            ->findBySymbol('KGM')
+            ->find('KGM')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1000]],
@@ -105,7 +105,7 @@ class MeasureRepositorySpec extends ObjectBehavior
             ->shouldThrow(
                 new UnknownUnitException('FOO_UNIT')
             )
-            ->during('findByUnit', ['FOO_UNIT']);
+            ->during('find', ['FOO_UNIT']);
     }
 
     public function it_throws_an_exception_for_unknown_symbol()
@@ -114,13 +114,13 @@ class MeasureRepositorySpec extends ObjectBehavior
             ->shouldThrow(
                 new UnknownUnitException('parsec')
             )
-            ->during('findBySymbol', ['parsec']);
+            ->during('find', ['parsec']);
     }
 
     public function it_finds_unit_in_a_family()
     {
         $this
-            ->findByUnit('DUPLICATE_UNIT', 'Length')
+            ->find('DUPLICATE_UNIT', 'Length')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 666]],
@@ -135,7 +135,7 @@ class MeasureRepositorySpec extends ObjectBehavior
     public function it_finds_symbol_in_a_family()
     {
         $this
-            ->findBySymbol('m', 'Length')
+            ->find('m', 'Length')
             ->shouldReturn(
                 [
                     'convert'             => [['mul' => 1]],
@@ -154,7 +154,7 @@ class MeasureRepositorySpec extends ObjectBehavior
             ->shouldThrow(
                 new UnresolvableUnitException($message)
             )
-            ->during('findByUnit', ['DUPLICATE_UNIT']);
+            ->during('find', ['DUPLICATE_UNIT']);
     }
 
     public function it_throws_an_exception_for_unresolvable_symbol()
@@ -164,6 +164,6 @@ class MeasureRepositorySpec extends ObjectBehavior
             ->shouldThrow(
                 new UnresolvableUnitException($message)
             )
-            ->during('findBySymbol', ['m']);
+            ->during('find', ['m']);
     }
 }

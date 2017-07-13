@@ -56,13 +56,13 @@ class CheckUnitsIntegrityCommand extends ContainerAwareCommand
         $repository = $this->getContainer()->get('pim_extended_measures.repository');
         foreach ($unitsConfig as $akeneoUnit => $unitConfig) {
             try {
-                $repository->findBySymbol($unitConfig['symbol']);
+                $repository->find($unitConfig['symbol']);
                 if (isset($unitConfig['unece_code'])) {
-                    $repository->findBySymbol($unitConfig['unece_code']);
+                    $repository->find($unitConfig['unece_code']);
                 }
                 if (isset($unitConfig['alternative_symbols'])) {
                     foreach ($unitConfig['alternative_symbols'] as $symbol) {
-                        $repository->findBySymbol($symbol);
+                        $repository->find($symbol);
                     }
                 }
             } catch (UnresolvableUnitException $e) {
