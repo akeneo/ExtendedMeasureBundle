@@ -1,5 +1,6 @@
 measures_config:
     Length:
+        standard: 'METER'
         units:
             METER:
                 alternative_symbols: ['mt']
