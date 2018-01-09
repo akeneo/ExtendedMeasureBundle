@@ -4,8 +4,8 @@ Manage measure units in families and conversions from a unit to another
 
 Allows to :
 - Convert a value from a unit to another
-- Add more unit to a family (group of measure units)
-- Create new families
+- Add more units to a family (group of measure units)
+- Create new measure families
 
 See [AkeneoMeasureBundle](https://github.com/akeneo/pim-community-dev/tree/master/src/Akeneo/Bundle/MeasureBundle) for more information
 
@@ -15,7 +15,7 @@ See [AkeneoMeasureBundle](https://github.com/akeneo/pim-community-dev/tree/maste
 
 | ExtendedMeasureBundle | Akeneo PIM Community Edition |
 |:---------------------:|:----------------------------:|
-| dev-master            | v1.6.*                       |
+| dev-master            | >= v1.6.0                    |
 
 ## Measure configuration structure
 
@@ -37,7 +37,7 @@ measures_config:
 - `measures_config`: the symfony extension configuration key.
 - `Acceleration`: the measure family. In our case, we define units for physical acceleration.
 - `standard`: this key defines which unit will be used as the base unit for this family.
-- `units`: allunits of the family.
+- `units`: every unit of the family.
 - `METER_PER_SQUARE_SECOND`: a readable name for the unit.
 - `convert`: array of operations to convert this unit to the standard unit.
 - `symbol`: the usual symbol of the measure.
@@ -61,11 +61,11 @@ measures_config:
 
 ## Console commands
 
-Because the number of measures is greatly increased, we provide some console command to help 
-keeping this configuration clean and to find informations about measures.
+Because the number of measures is greatly increased, we provide some console commands to help 
+keeping this configuration clean and to find information about measures.
 
 - `pim:measures:check`:
-parse all configuration files and check for the unicity of a unit inside the same family
+parse all configuration files and check for the unicity of a unit inside a family
  
 - `pim:measures:find`:
-find a measure by one of its unit and return some information.
+find a measure by one of its units and return some information.
