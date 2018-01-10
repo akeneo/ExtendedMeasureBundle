@@ -1,24 +1,23 @@
 language: php
 
 php:
-    - "5.6"
-    - "7.1"
+  - 5.6
+  - 7.1
 
 git:
-  depth: 5
+  depth: 10
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/cache/files
 
 before_install:
-    - echo "memory_limit=3G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - phpenv config-rm xdebug.ini
-    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - echo "memory_limit=4G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - phpenv config-rm xdebug.ini || echo "xdebug not available for PHP $TRAVIS_PHP_VERSION"
 
 install:
-    - composer install --prefer-dist --no-interaction --no-scripts
+  - composer --prefer-dist --no-interaction -v install
 
 script:
-    - ./vendor/bin/php-cs-fixer --dry-run -v fix
-    - ./vendor/bin/phpspec run
+  - ./vendor/bin/php-cs-fixer --dry-run -v fix
+  - ./vendor/bin/phpspec run
