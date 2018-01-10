@@ -13,9 +13,9 @@ See [AkeneoMeasureBundle](https://github.com/akeneo/pim-community-dev/tree/maste
 
 ## Requirements
 
-| ExtendedMeasureBundle | Akeneo PIM Community Edition |
-|:---------------------:|:----------------------------:|
-| dev-master            | >= v1.6.0                    |
+| ExtendedMeasureBundle | Akeneo PIM Community Editions |
+|:---------------------:|:-----------------------------:|
+| dev-master            | v1.6.\*, v1.7.\*, v2.\*       |
 
 ## Measure configuration structure
 
@@ -46,7 +46,7 @@ measures_config:
 - `alternative_symbols`: other symbols or names we could find for this same measure.
  The symbol can vary from one standard to another.
 
-## What's new
+## What's new
 
 - `alternative_symbols`: one measure can be identified with multiple symbols, 
  to reflect the differences existing between measures systems. 
