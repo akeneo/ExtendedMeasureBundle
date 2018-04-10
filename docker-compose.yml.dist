@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  fpm56:
+    image: akeneo/fpm:php-5.6
+    environment:
+      COMPOSER_HOME: /home/docker/.composer
+      PHP_IDE_CONFIG: 'serverName=extended-measure'
+      PHP_XDEBUG_ENABLED: 0
+      PHP_XDEBUG_IDE_KEY: XDEBUG_IDE_KEY
+      PHP_XDEBUG_REMOTE_HOST: xxx.xxx.xxx.xxx
+      XDEBUG_CONFIG: 'remote_host=xxx.xxx.xxx.xxx'
+    user: docker
+    volumes:
+      - ./:/srv/extended-measure
+      - ~/.composer:/home/docker/.composer
+    working_dir: /srv/extended-measure
+
+  fpm71:
+    image: akeneo/fpm:php-7.1
+    environment:
+      COMPOSER_HOME: /home/docker/.composer
+      PHP_IDE_CONFIG: 'serverName=extended-measure'
+      PHP_XDEBUG_ENABLED: 0
+      PHP_XDEBUG_IDE_KEY: XDEBUG_IDE_KEY
+      PHP_XDEBUG_REMOTE_HOST: xxx.xxx.xxx.xxx
+      XDEBUG_CONFIG: 'remote_host=xxx.xxx.xxx.xxx'
+    user: docker
+    volumes:
+      - ./:/srv/extended-measure
+      - ~/.composer:/home/docker/.composer
+    working_dir: /srv/extended-measure

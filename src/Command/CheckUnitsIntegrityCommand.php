@@ -25,7 +25,7 @@ class CheckUnitsIntegrityCommand extends ContainerAwareCommand
     {
         $this
             ->setName('pim:measures:check')
-            ->setDescription('Checks measures defiition files');
+            ->setDescription('Checks measures definition files');
     }
 
     /**
