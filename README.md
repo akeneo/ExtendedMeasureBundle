@@ -1,3 +1,6 @@
+This extension is archived. It has been done for IcecatConnector: https://github.com/akeneo/IcecatConnector and we reintegrated it inside.
+If you want to use it and improve it, feel free to fork it :)
+
 # ExtendedMeasure bundle
 
 Manage measure units in families and conversions from a unit to another
